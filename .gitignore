@@ -1,3 +1,5 @@
 vendor
 .DS_Store
 composer.lock
+.idea
+app/config/config.php

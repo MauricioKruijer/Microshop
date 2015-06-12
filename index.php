@@ -1,11 +1,12 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 define("APP_ROOT", "/Users/Mauricio/Sites/microshop/app/");
+require_once __DIR__ . '/app/config/config.php';
 
 $klein = new \Klein\Klein();
 
 $klein->respond(function ($request, $response, $service) {
-    $service->layout('../app/layout/default.phtml');
+    $service->layout('./app/layout/default.php');
 });
 
 $klein->respond('GET', '/hello-world', function () {
@@ -14,7 +15,12 @@ $klein->respond('GET', '/hello-world', function () {
 
 $klein->respond('GET', '/', function ($request, $response, $service) {
 	$service->pageTitle = 'Hello world';
-	$service->render('../app/views/home.phtml');
+    $product = new \Microshop\Models\Product();
+    echo $product->getById();
+
+    $category = new \Microshop\Models\Category();
+    echo $category->getById();
+	$service->render('./app/views/home.php');
     // return 'Hello World!!';
 });
 

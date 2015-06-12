@@ -1,0 +1,7 @@
+<?php
+define("MYSQL_HOST", "localhost");
+define("MYSQL_PORT", 3366);
+define("MYSQL_DATABASE", "database");
+define("MYSQL_USER", "user");
+define("MYSQL_PASSWORD", "password");
+?>

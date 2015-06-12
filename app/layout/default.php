@@ -6,13 +6,13 @@
         <title><?= $this->pageTitle; ?></title>
     </head>
     <body>
-        <?= $this->partial(APP_ROOT . 'layout/partials/header.phtml'); ?>
+        <?= $this->partial(APP_ROOT . 'layout/partials/header.php'); ?>
 
         <section role="main">
             <?= $this->yieldView(); ?>
 
         </section>
-        <?= $this->partial(APP_ROOT . 'layout/partials/footer.phtml'); ?>
+        <?= $this->partial(APP_ROOT . 'layout/partials/footer.php'); ?>
 
     </body>
 </html>

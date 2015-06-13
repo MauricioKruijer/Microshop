@@ -34,13 +34,15 @@ class ProductService {
 
     public function persist(Product $product) {
         if($productId = $product->getId()) {
-            $stmt = "UPDATE `products` WHERE `id` = :id";
-            $bind = ['id' => $productId];
+            $stmt = "UPDATE `products` SET `name` = :name WHERE `id` = :id LIMIT 1";
+            $bind = [
+                'id' => $productId,
+                'name' => $product->getName()
+            ];
 
             return $this->db->perform($stmt, $bind);
         } else {
             $stmt = "INSERT INTO `products` (name, created_time) VALUES (:vals)";
-
             $bind = [
                 'vals' => [
                     $product->getName(),

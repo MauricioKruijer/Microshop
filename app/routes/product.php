@@ -10,12 +10,13 @@ use \Microshop\Services\ProductService;
 $this->respond("/?", function($req, $res) {
     $res->redirect("/");
 });
-
+// Test with:
+// curl --data "name=a" http://microshop.dev:8888/product/create
 $this->respond('POST', '/create', function($req, $res, $service, $app) {
     $productService = new ProductService($app->db);
     // TODO catch all ValidatorExceptions separately to provide all errors at once instead of one at the time
     try {
-        $service->validateParam('name', 'Please provide a valid product name')->isLen(1, 225);
+        $service->validateParam('name', 'Please provide a valid product name')->isLen(1, 255);
 
         $product = new \Microshop\Models\Product(array('name'=>$req->params()['name']));
 
@@ -29,6 +30,32 @@ $this->respond('POST', '/create', function($req, $res, $service, $app) {
     } catch(Exception $e) {
         $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'unknown']]);
     }
+});
+
+// Test with:
+// curl --data "name=NewName" http://microshop.dev:8888/product/1/edit
+$this->respond('POST', '/[i:id]/edit', function($req, $res, $service, $app) {
+    $productService = new ProductService($app->db);
+    try {
+        $service->validateParam('name')->isLen(1, 255);
+        if($fondProduct = $productService->findByProductId($req->id)) {
+            $product = new \Microshop\Models\Product($fondProduct);
+            $product->setName($req->name);
+            $productService->persist($product);
+
+            $res->json(['success' => ['message' => 'Product successfully updated!']]);
+        } else {
+            $res->json(['error' => ['message' => 'Product not found!', 'type' => 'product']]);
+        }
+    } catch (\Klein\Exceptions\ValidationException $e) {
+        $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'validation']]);
+    } catch(PDOException $e) {
+        $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'database']]);
+//        $res->send();
+    } catch(Exception $e) {
+        $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'unknown']]);
+    }
+
 });
 
 
@@ -46,7 +73,7 @@ $viewProduct = function($req, $res, $service, $app) {
     }
 };
 
-$this->respond('/[i:id]/', function($req, $res) { $res->redirect("/product/" . $req->id); });
-$this->respond("/[i:id]", $viewProduct);
-$this->respond("/[i:id]/[:title]", $viewProduct);
+$this->respond('GET','/[i:id]/', function($req, $res) { $res->redirect("/product/" . $req->id); });
+$this->respond('GET',"/[i:id]", $viewProduct);
+$this->respond('GET', "/[i:id]/[:title]", $viewProduct);
 

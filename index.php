@@ -35,9 +35,11 @@ $klein->respond('GET', '/hello-world', function () {
 });
 
 // index!
-$klein->respond('GET', '/', function ($request, $response, $service) {
+$klein->respond('GET', '/', function ($request, $response, $service, $app) {
+    $productService = new \Microshop\Services\ProductService($app->db);
+//    var_dump($productService->getOverViewItems());
 	$service->pageTitle = 'Hello world';
-	$service->render('./app/views/home.php');
+	$service->render('./app/views/index/overview.php', ['products' => $productService->getOverViewItems()]);
     // return 'Hello World!!';
 });
 

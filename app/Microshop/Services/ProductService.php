@@ -31,7 +31,11 @@ class ProductService {
             return null;
         }
     }
-
+    public function getOverViewItems($maxLimit = 9) {
+        $stmt = "SELECT * FROM `products` ORDER BY `created_time` DESC LIMIT :limit";
+        $bind = ['limit' => $maxLimit];
+        return $this->db->fetchAll($stmt, $bind);
+    }
     public function persist(Product $product) {
         if($productId = $product->getId()) {
             $stmt = "UPDATE `products` SET

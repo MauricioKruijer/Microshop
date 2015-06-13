@@ -44,8 +44,8 @@ $klein->respond('GET', '/', function ($request, $response, $service, $app) {
 });
 
 $klein->with('/product', __DIR__ . '/app/routes/product.php');
-$klein->with("/users", __DIR__. '/app/routes/users.php');
-//$klein->with("/users", function() use ($klein) {
+$klein->with("/user", __DIR__. '/app/routes/user.php');
+//$klein->with("/user", function() use ($klein) {
 //    $klein->respond("/", function() {
 //        return "YO USERS";
 //    });

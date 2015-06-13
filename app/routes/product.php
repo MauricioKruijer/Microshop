@@ -87,7 +87,7 @@ $viewProduct = function($req, $res, $service, $app) {
     $productService = new ProductService($app->db);
 
     $service->strMessage = "Product shizzle";
-    $service->render("./app/views/users/add.php");
+    $service->render("./app/views/user/add.php");
 
     var_dump($productService->findByProductId(2));
     var_dump($productService->findByProductId(1));

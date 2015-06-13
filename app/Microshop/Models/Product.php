@@ -11,6 +11,7 @@ namespace Microshop\Models {
     class Product  {
         private $id,
             $name,
+            $is_deleted,
             $created_time;
 
         function __construct($product) {
@@ -20,6 +21,23 @@ namespace Microshop\Models {
             $this->name = $product['name'];
             $this->created_time = (isset($product['created_time']) ? $product['created_time'] : null);
         }
+
+        /**
+         * @return mixed
+         */
+        public function getIsDeleted()
+        {
+            return $this->is_deleted;
+        }
+
+        /**
+         * @param mixed $is_deleted
+         */
+        public function setIsDeleted($is_deleted)
+        {
+            $this->is_deleted = $is_deleted;
+        }
+
 
         /**
          * @return mixed

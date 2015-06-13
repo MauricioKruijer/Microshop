@@ -34,10 +34,16 @@ class ProductService {
 
     public function persist(Product $product) {
         if($productId = $product->getId()) {
-            $stmt = "UPDATE `products` SET `name` = :name WHERE `id` = :id LIMIT 1";
+            $stmt = "UPDATE `products` SET
+              `name` = :name,
+              `is_deleted` = :is_deleted,
+               `last_updated_time` = :last_updated_time
+            WHERE `id` = :id LIMIT 1";
             $bind = [
                 'id' => $productId,
-                'name' => $product->getName()
+                'is_deleted' => $product->getIsDeleted(),
+                'name' => $product->getName(),
+                'last_updated_time' => date('c')
             ];
 
             return $this->db->perform($stmt, $bind);

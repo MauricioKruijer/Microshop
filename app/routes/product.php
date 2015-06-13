@@ -37,7 +37,7 @@ $this->respond('POST', '/create', function($req, $res, $service, $app) {
 $this->respond('POST', '/[i:id]/edit', function($req, $res, $service, $app) {
     $productService = new ProductService($app->db);
     try {
-        $service->validateParam('name')->isLen(1, 255);
+        $service->validateParam('name', 'Please provide a valid product name')->isLen(1, 255);
         if($fondProduct = $productService->findByProductId($req->id)) {
             $product = new \Microshop\Models\Product($fondProduct);
             $product->setName($req->name);
@@ -52,6 +52,30 @@ $this->respond('POST', '/[i:id]/edit', function($req, $res, $service, $app) {
     } catch(PDOException $e) {
         $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'database']]);
 //        $res->send();
+    } catch(Exception $e) {
+        $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'unknown']]);
+    }
+
+});
+
+// Test with:
+// curl -X DELETE http://microshop.dev:8888/product/1/delete
+$this->respond('DELETE', '/[i:id]/delete', function($req, $res, $service, $app) {
+    $productService = new ProductService($app->db);
+    try {
+        if($fondProduct = $productService->findByProductId($req->id)) {
+            $product = new \Microshop\Models\Product($fondProduct);
+
+            $product->setIsDeleted(1);
+            $productService->persist($product);
+
+            $res->json(['success' => ['message' => 'Product successfully deleted!']]);
+
+        } else {
+            $res->json(['error' => ['message' => 'Product not found!', 'type' => 'product']]);
+        }
+    } catch(PDOException $e) {
+        $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'database']]);
     } catch(Exception $e) {
         $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'unknown']]);
     }

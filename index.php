@@ -6,7 +6,7 @@ define("APP_ROOT", "/Users/Mauricio/Sites/microshop/app/");
 require_once __DIR__ . '/app/config/config.php';
 
 use \Aura\Sql\ExtendedPdo;
-use \Microshop\Services\ProductService;
+
 
 $klein = new \Klein\Klein();
 
@@ -22,31 +22,26 @@ $klein->respond(function ($request, $response, $service, $app) {
         );
     });
 });
+$klein->respond('GET', '/test', function($request, $response, $service) {
+    $service->flash("yo me boy");
+    $service->flash("yo ma boy");
+    $service->back();
+    $service->render('./app/views/home.php');
+
+});
 
 $klein->respond('GET', '/hello-world', function () {
     return 'Hello World!';
 });
 
+// index!
 $klein->respond('GET', '/', function ($request, $response, $service) {
 	$service->pageTitle = 'Hello world';
 	$service->render('./app/views/home.php');
     // return 'Hello World!!';
 });
 
-$klein->with("/product", function() use ($klein) {
-    $klein->respond("/?", function($req, $res) {
-        $res->redirect("/");
-    });
-
-    $klein->respond("/[i:id]", function($req, $res, $service, $app) {
-        $productService = new ProductService($app->db);
-        $service->strMessage = "Product shizzle";
-        $service->render("./app/views/users/add.php");
-        var_dump($productService->findByProductId(2));
-        var_dump($productService->findByProductId(1));
-    });
-});
-
+$klein->with('/product', __DIR__ . '/app/routes/product.php');
 $klein->with("/users", __DIR__. '/app/routes/users.php');
 //$klein->with("/users", function() use ($klein) {
 //    $klein->respond("/", function() {

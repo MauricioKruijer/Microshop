@@ -7,6 +7,8 @@
  */
 
 namespace Microshop\Services;
+use Aura\Sql\Exception;
+use Microshop\Models\Product;
 
 use \Aura\Sql\ExtendedPdo;
 
@@ -27,6 +29,29 @@ class ProductService {
             return $result;
         } else {
             return null;
+        }
+    }
+
+    public function persist(Product $product) {
+        if($productId = $product->getId()) {
+            $stmt = "UPDATE `products` WHERE `id` = :id";
+            $bind = ['id' => $productId];
+
+            return $this->db->perform($stmt, $bind);
+        } else {
+            $stmt = "INSERT INTO `products` (name, created_time) VALUES (:vals)";
+
+            $bind = [
+                'vals' => [
+                    $product->getName(),
+                    date('c')
+                ]
+            ];
+
+            $result = $this->db->perform($stmt, $bind);
+//            echo $result->queryString; // Debugs
+            return $this->db->lastInsertId();
+
         }
     }
 }

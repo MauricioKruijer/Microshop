@@ -14,9 +14,11 @@ namespace Microshop\Models {
             $created_time;
 
         function __construct($product) {
-            $this->id = $product['id'];
+            if(!isset($product['name'])) throw Exception("Product name is mandatory");
+
+            $this->id = (isset($product['id']) ? $product['id'] : false);
             $this->name = $product['name'];
-            $this->created_time = $product['created_time'];
+            $this->created_time = (isset($product['created_time']) ? $product['created_time'] : null);
         }
 
         /**

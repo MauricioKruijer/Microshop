@@ -43,6 +43,7 @@ $klein->respond('GET', '/', function ($request, $response, $service, $app) {
     // return 'Hello World!!';
 });
 
+$klein->with('/cart', __DIR__ . '/app/routes/cart.php');
 $klein->with('/product', __DIR__ . '/app/routes/product.php');
 $klein->with("/user", __DIR__. '/app/routes/user.php');
 //$klein->with("/user", function() use ($klein) {

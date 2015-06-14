@@ -2,11 +2,12 @@
 
 // Declare app level module which depends on views, and components
 angular.module('Microshop', [
-  'ngRoute',
-  'Microshop.view1',
-  'Microshop.view2',
-  'Microshop.version'
+    'ngRoute',
+    'Microshop.view1',
+    'Microshop.view2',
+    'Microshop.products',
+    'Microshop.version'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/products'});
 }]);

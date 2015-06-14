@@ -3,3 +3,5 @@ vendor
 composer.lock
 .idea
 app/config/config.php
+node_modules
+bower_components

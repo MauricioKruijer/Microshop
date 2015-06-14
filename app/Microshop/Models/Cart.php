@@ -52,4 +52,8 @@ class Cart extends \Microshop\Utils\BasicObject  {
 //            Session::write($product->getId(), ['count'=> 0] );
         }
     }
+
+    public function getProducts() {
+        return $this->products;
+    }
 }

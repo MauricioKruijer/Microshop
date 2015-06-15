@@ -30,6 +30,16 @@ class Session {
         }
         return false;
     }
+    public static function remove($key, $child = false) {
+        if(Session::read($key, $child)) {
+            unset($_SESSION[$key][$child]);
+            return true;
+        } elseif(Session::read($key)) {
+            unset($_SESSION[$key]);
+            return true;
+        }
+        return false;
+    }
     public static function add($key, $data) {
         if(false !== (self::read($key) ) ) {
             $temp = self::read($key);
@@ -41,7 +51,7 @@ class Session {
         }
     }
     public static function dump() {
-        echo nl2br(print_r($_SESSION));
+        echo nl2br(print_r($_SESSION, true));
     }
 
     public static function destroy() {

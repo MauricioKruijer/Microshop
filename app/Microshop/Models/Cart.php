@@ -13,6 +13,11 @@ use Microshop\Utils\Session;
 
 class Cart extends \Microshop\Utils\BasicObject  {
     private $products = array();
+    private static $productsList = array();
+
+    private $totalCartItems = 0;
+
+    public $totalPrice = 0;
 
     public function __construct() {
         Session::start();
@@ -40,7 +45,14 @@ class Cart extends \Microshop\Utils\BasicObject  {
             }
         }
     }
-    public function addProduct(Product $product){
+    public function addProduct(Product $product, $addToFlat = false){
+        if(!in_array($product, self::$productsList)) {
+            self::$productsList[] = $product;
+        }
+        if($addToFlat) $this->addProductById($product->getId());
+//        $this->addProductById($product->getId());
+
+        return true;
         if(isset($this->products[$product->getId()])) {
             $this->products[$product->getId()]['count'] += 1;
 //            Session::write($product->getId(), ['count'=> $this->products[$product->getId()]['count']] );
@@ -53,6 +65,32 @@ class Cart extends \Microshop\Utils\BasicObject  {
         }
     }
 
+    public function removeProductById($productId, $quantity = 1){
+        if($quantity <= 0) throw new \Exception("Quantity must set higher then 0");
+        if(isset($this->products[$productId])) {
+
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalCartItems()
+    {
+        return $this->totalCartItems;
+    }
+
+    /**
+     * @param int $totalCartItems
+     */
+    public function setTotalCartItems($totalCartItems)
+    {
+        $this->totalCartItems = $totalCartItems;
+    }
+
+    public function getProductsList() {
+        return self::$productsList;
+    }
     public function getProducts() {
         return $this->products;
     }

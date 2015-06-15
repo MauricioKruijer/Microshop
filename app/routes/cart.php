@@ -25,66 +25,88 @@ if(Session::read("cart_session_key")) {
 }
 $cart = new Cart($sessionKey);
 
-$this->respond("/?", function($req, $res, $service, $app) use($cart) {
+$cartOverview = function($req, $res, $service, $app) use($cart) {
     $sessionKey = Session::read("cart_session_key");
-//    $res->send("h")
-
-//    $productService = new ProductService($app->db);
-
-//    var_dump($cart->getProducts());
-//    var_dump($cart->getProductsList());
-//    \Microshop\Utils\Session::dump();
-//    return "Hey hallo cart";
-//    foreach($cart->getProducts() as $productId => $productQuantity) {
-//        var_dump($productId, $productQuantity);
-//        $product = new Product($productService->findByProductId($productId));
-//        $cart->addProduct($product);
-//    }
     $cartService = new CartService($app->db);
     $productService = new ProductService($app->db);
 
-//    $cart = new Cart();
     if($cartItems = $cartService->findCartItemsBySessionKey($sessionKey)) {
         foreach ($cartItems as $cartItem) {
             $producttmp = $productService->findByProductId($cartItem['product_id']);
             $product = new Product($producttmp);
 
-            $cart->addProduct($product);
+            $cart->addProduct($product, $cartItem['quantity']);
         }
         $cartTotalItemCount = $cartService->countTotalCartItemsBySessionKey($sessionKey);
         $cart->setTotalCartItems($cartTotalItemCount['total_items']);
     }
-    $service->cart = $cart;
 
+    if($req->format == 'json') {
+        $toJson = [
+            'total_items' => $cart->getTotalCartItems(),
+            'products' => $cart->getProducts()
+        ];
 
-//    $service->products = [];
-    Session::dump();
-//    Session::destroy();
-    $service->render('./app/views/cart/overview.php');
-});
-// No JS fallback
-$this->respond('GET', "/[i:id]/add", function($req, $res, $service, $app) use($cart) {
-    $sessionKey = Session::read("cart_session_key");
-//    $cart->addProductById($req->id);
-    $cartService = new CartService($app->db);
-    $productService = new ProductService($app->db);
-    $product = $productService->findByProductId($req->id);
-    if($product) {
-        $product = new Product($product);
-        $cart->addProduct($product, true);
-
-        $cartService->saveProductToCart($product->getId(), $sessionKey);
-        $res->json(['success' => ['message' => 'Product successfully added to cart!']]);
+        $res->json($toJson);
+    } else {
+        $service->cart = $cart;
+//        Session::dump();
+        $service->render('./app/views/cart/overview.php');
     }
 
-//    $res->redirect("/cart");
+};
+
+$this->respond("/?", $cartOverview);
+$this->respond("/cart.[json:format]", $cartOverview);
+
+$this->respond('GET', "/[i:id]/add", function($req, $res, $service, $app) use($cart) {
+    $sessionKey = Session::read("cart_session_key");
+
+    $cartService = new CartService($app->db);
+    $productService = new ProductService($app->db);
+
+    $product = $productService->findByProductId($req->id);
+
+    if($product) {
+        $product = new Product($product);
+        $cart->addProduct($product, 1); // todo set quantity from param
+
+        $cartService->saveProductToCart($product->getId(), $sessionKey);
+
+        $res->json(['success' => ['message' => 'Product successfully added to cart!']]);
+    } else {
+        $res->json(['error' => ['message' => 'Product not found']]);
+    }
+});
+
+$this->respond('GET', "/[i:id]/delete", function($req, $res, $service, $app) use($cart) {
+    $sessionKey = Session::read("cart_session_key");
+
+    $cartService = new CartService($app->db);
+
+    try {
+        $itemsLeftInCart = $cart->removeProductById($req->id);
+    }catch (\Exception $e) {
+        return $res->json(['error' => ['message' => $e->getMessage() ]] );
+    }
+
+    if($itemsLeftInCart === 0) {
+        Session::remove("cart_products", "id_".$req->id);
+        $cartService->removeProductFromCart($req->id, $sessionKey);
+    }
+    if($itemsLeftInCart > 0) {
+        Session::add("cart_products", ["id_".$req->id => $itemsLeftInCart]);
+        $cartService->substractProductFromCart($req->id, $sessionKey);
+    }
+
+    $res->json(['success' => ['message' => 'Product successfully removed from to cart!', $itemsLeftInCart]]);
 });
 $this->respond('POST', "/add", function($req, $res) use($cart) {
-    $cart->addProductById($req->id);
-    // TODO handle $req->amount n product item(s)
+    $cart->addProductById($req->id); // TODO handle $req->amount n product item(s)
     $res->json(['success'=> ['message'=> 'Item added to cart!']]);
 });
 $this->respond('GET', "/bye", function($req, $res) use($cart) {
     Session::destroy();
-    $res->json(['success'=> ['message'=> 'Item added to cart!']]);
+
+    $res->json(['success'=> ['message'=> 'Session destroyed, cart cleared']]);
 });

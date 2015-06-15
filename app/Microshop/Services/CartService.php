@@ -36,4 +36,20 @@ class CartService {
         $result = $this->db->perform($stmt, $bind);
         return $this->db->lastInsertId();
     }
+    public function substractProductFromCart($productId, $sessionKey) {
+        $stmt = "INSERT INTO `carts` (product_id, session_key, created_time) VALUES (:vals)  ON DUPLICATE KEY UPDATE `quantity`=`quantity`-1";
+        $bind = [
+            'vals'=>[$productId, $sessionKey, date('c')]
+        ];
+        $result = $this->db->perform($stmt, $bind);
+        return $this->db->lastInsertId();
+    }
+    public function removeProductFromCart($productId, $sessionKey) {
+        $stmt = "DELETE FROM `carts` WHERE `product_id` = :product_id AND `session_key` = :session_key LIMIT 1";
+        $bind = [
+            'product_id' => $productId,
+            'session_key' => $sessionKey
+        ];
+        return $this->db->perform($stmt, $bind);
+    }
 }

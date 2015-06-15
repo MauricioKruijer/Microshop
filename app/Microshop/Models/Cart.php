@@ -21,22 +21,14 @@ class Cart extends \Microshop\Utils\BasicObject  {
 
     public function __construct() {
         Session::start();
-        $this->restoreProductsFromSession(Session::read("products"));
-//        array(
-//            "products" => array(
-//                'product_id' => ''
-//            )
-//        )
-    }
-    public function addProductById($productId) {
-        if(!isset($this->products[$productId])) {
-            $this->products[$productId] = 1;
-            Session::add("products", ["id_" . $productId => 1]);
-        } else {
-            $this->products[$productId] +=1;
-            Session::add("products", ["id_" . $productId => $this->products[$productId]]);
 
-        }
+        $this->restoreProductsFromSession(Session::read("cart_products"));
+    }
+
+    public function addProductById($productId, $quantity = 1) {
+        $this->products[$productId] = $quantity;
+
+        Session::add("cart_products", ["id_" . $productId => $quantity]);
     }
     public function restoreProductsFromSession($products) {
         if(!empty($products)) {
@@ -45,30 +37,33 @@ class Cart extends \Microshop\Utils\BasicObject  {
             }
         }
     }
-    public function addProduct(Product $product, $addToFlat = false){
+    public function addProduct(Product $product, $quantity = 1){
         if(!in_array($product, self::$productsList)) {
             self::$productsList[] = $product;
         }
-        if($addToFlat) $this->addProductById($product->getId());
-//        $this->addProductById($product->getId());
+        $this->addProductById($product->getId(), $quantity);
 
         return true;
-        if(isset($this->products[$product->getId()])) {
-            $this->products[$product->getId()]['count'] += 1;
-//            Session::write($product->getId(), ['count'=> $this->products[$product->getId()]['count']] );
-
-        } else {
-            $this->products[$product->getId()] = $product;
-            $this->products[$product->getId()]['count'] = 1;
-
-//            Session::write($product->getId(), ['count'=> 0] );
-        }
     }
 
     public function removeProductById($productId, $quantity = 1){
         if($quantity <= 0) throw new \Exception("Quantity must set higher then 0");
-        if(isset($this->products[$productId])) {
 
+        if(isset($this->products[$productId])) {
+            if($this->products[$productId] > 0) {
+                $this->products[$productId] -= $quantity;
+                if($this->products[$productId] > 0)
+                    return $this->products[$productId];
+            }
+
+            unset($this->products[$productId]);
+
+            Session::remove("products", $productId);
+
+            return 0;
+
+        } else {
+            throw new \Exception("Item cant be removed from cart");
         }
     }
 

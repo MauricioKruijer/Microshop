@@ -8,5 +8,6 @@ foreach($this->cart->getProductsList() as $product): ?>
         <?=\Microshop\Utils\Session::read('products', 'id_' . $product->getId()) ?>x
         <a href="/product/<?=$product->getId()?>">View</a>
         <a href="/cart/<?=$product->getId()?>/add">Add to cart one more</a>
+        <a href="/cart/<?=$product->getId()?>/delete">Delete one</a>
     </div>
 <?php endforeach;?>

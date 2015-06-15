@@ -1,0 +1,51 @@
+<!-- Portfolio Item Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{{product.name}}
+            <small>{{product.sku}}</small>
+        </h1>
+    </div>
+</div>
+<!-- /.row -->
+
+<!-- Portfolio Item Row -->
+<div class="row">
+
+    <div class="col-md-8">
+        <img class="img-responsive product_image_{{product.id}}" ng-src="{{product.image}}" alt="">
+    </div>
+
+    <div class="col-md-4">
+        <add-to-cart class="pull-right"></add-to-cart>
+        <!--<a href class="btn btn-primary add-to-cart pull-right" title="Add to shopping cart"><i class="fa fa-shopping-cart"></i> Add</a> <br />-->
+        <h3>Description</h3>
+        <!--<p>{{product.description}}</p>-->
+        <p data-ng-repeat="paragraph in (product.description | splitNewLines) track by $index">{{paragraph}}</p>
+        <h3>Product Details</h3>
+        <ul>
+            <li>Lorem Ipsum</li>
+            <li>Dolor Sit Amet</li>
+            <li>Consectetur</li>
+            <li>Adipiscing Elit</li>
+        </ul>
+    </div>
+
+</div>
+<!-- /.row -->
+
+<!-- Related Projects Row -->
+<div class="row">
+
+    <div class="col-lg-12">
+        <h3 class="page-header">Photos</h3>
+    </div>
+
+    <div class="col-sm-3 col-xs-6" data-ng-repeat="image in product.images">
+        <a href ng-click="changeImage(image)">
+            <img class="img-responsive portfolio-item" ng-src="{{image}}" alt="">
+        </a>
+    </div>
+
+
+</div>
+<!-- /.row -->

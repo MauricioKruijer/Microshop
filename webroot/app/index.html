@@ -18,13 +18,14 @@
 
     <link rel="stylesheet" href="app.css">
     <link rel="stylesheet" href="heroic-features.css">
+    <link rel="stylesheet" href="https://daneden.github.io/animate.css/animate.min.css">
+
+    <style>
+
+    </style>
 
 </head>
 <body>
-<!--[if lt IE 7]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
-<![endif]-->
 
 <!-- Navigation -->
 <nav id="headnav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -38,7 +39,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand DEZE" href="#">Webshop</a>
+            <a class="navbar-brand DEZE" href="#/products">Webshop</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -47,7 +48,10 @@
                     <a href="#/view1">View 1</a>
                 </li>
                 <li>
-                    <a href="#/view2">View 2</a>
+                    <a href="#/view2">View 2 </a>
+                </li>
+                <li id="nav-shopping-cart">
+                    <a href="#/cart">Cart <span class="badge"></span></a>
                 </li>
             </ul>
         </div>
@@ -60,112 +64,9 @@
 
 <!-- Page Content -->
 <div class="container">
-
-    <!-- Jumbotron Header -->
-    <header class="jumbotron hero-spacer" style="">
-        <h1>Hi there!</h1>
-
-        <p>
-            Where's my money, bitch?!
-            I ain't gonna keep asking nice. Yo, alright?
-            I want my money and my dope. Come on! What, what! What do you wanna say?
-            Shut up! Shut... up!
-        </p>
-
-        <p><a class="btn btn-primary btn-large">Call to action!</a>
-        </p>
-    </header>
-
-    <!-- Title -->
-    <div class="row">
-        <div class="col-lg-12">
-            <div ng-view></div>
-        </div>
-    </div>
-    <hr>
-
-    <!-- Title -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h3>New products</h3>
-        </div>
-    </div>
-    <!-- /.row -->
-
-    <!-- Page Features -->
-    <div class="row text-center">
-
-        <div class="col-md-3 col-sm-6 hero-feature">
-            <div class="thumbnail">
-                <img src="http://placehold.it/800x500" alt="">
-
-                <div class="caption">
-                    <h3>Product name</h3>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-                    <p>
-                        <a href="#" class="btn btn-primary" title="Add to shopping cart"><i class="fa fa-shopping-cart"></i> Add</a> <a href="#" class="btn btn-default">More
-                        Info</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 hero-feature">
-            <div class="thumbnail">
-                <img src="http://placehold.it/800x500" alt="">
-
-                <div class="caption">
-                    <h3>Product name</h3>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-                    <p>
-                        <a href="#" class="btn btn-primary" title="Add to shopping cart"><i class="fa fa-shopping-cart"></i> Add</a> <a href="#" class="btn btn-default">More
-                        Info</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 hero-feature">
-            <div class="thumbnail">
-                <img src="http://placehold.it/800x500" alt="">
-
-                <div class="caption">
-                    <h3>Product name</h3>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-                    <p>
-                        <a href="#" class="btn btn-primary" title="Add to shopping cart"><i class="fa fa-shopping-cart"></i> Add</a> <a href="#" class="btn btn-default">More
-                        Info</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 hero-feature">
-            <div class="thumbnail">
-                <img src="http://placehold.it/800x500" alt="">
-
-                <div class="caption">
-                    <h3>Product name</h3>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-                    <p>
-                        <a href="#" class="btn btn-primary" title="Add to shopping cart"><i class="fa fa-shopping-cart"></i> Add</a> <a href="#" class="btn btn-default">More
-                        Info</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <!-- /.row -->
-
+    <!-- ng view directive -->
+    <div ng-view></div>
+    <!-- / ng view directive-->
     <hr>
 
     <!-- Footer -->
@@ -187,6 +88,9 @@
 <script src="//cdn.jsdelivr.net/evil-icons/1.7.2/evil-icons.min.js"></script>
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+
+
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 
@@ -195,10 +99,13 @@
 
 <script src="list/product-list.js"></script>
 
+<script src="detail/product-detail.js"></script>
+
 <script src="view1/view1.js"></script>
 <script src="view2/view2.js"></script>
 
 <script src="components/products/products.js"></script>
+<script src="components/products/add-to-cart-directive.js"></script>
 
 <script src="components/version/version.js"></script>
 <script src="components/version/version-directive.js"></script>

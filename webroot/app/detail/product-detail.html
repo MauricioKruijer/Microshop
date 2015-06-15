@@ -12,7 +12,7 @@
 <div class="row">
 
     <div class="col-md-8">
-        <img class="img-responsive product_image_{{product.id}}" ng-src="{{product.image}}" alt="">
+        <img class="img-responsive product_image_{{product.id}}" ng-src="{{mainImageUrl}}" alt="">
     </div>
 
     <div class="col-md-4">
@@ -20,7 +20,7 @@
         <!--<a href class="btn btn-primary add-to-cart pull-right" title="Add to shopping cart"><i class="fa fa-shopping-cart"></i> Add</a> <br />-->
         <h3>Description</h3>
         <!--<p>{{product.description}}</p>-->
-        <p data-ng-repeat="paragraph in (product.description | splitNewLines) track by $index">{{paragraph}}</p>
+        <p data-ng-repeat="p in description">{{p }}</p>
         <h3>Product Details</h3>
         <ul>
             <li>Lorem Ipsum</li>

@@ -9,9 +9,11 @@ angular.module('Microshop.products.add-to-cart-directive', [])
             restrict: 'E',
             templateUrl: 'components/products/add-to-cart-directive.html',
             link: function($scope) {
+                var addToCartCount = 0; // not a global counter
+
                 $scope.addToCart = function(product) {
                     var labelClass = "badge";
-                    var addToCartCount = 0;
+
                     var shoppingCartBadge = jQuery("#nav-shopping-cart").find("span");
                     var shoppingCartCount = shoppingCartBadge.text();
                     var transformShow = ('' === shoppingCartCount ? true : false);

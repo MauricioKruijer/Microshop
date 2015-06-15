@@ -36,7 +36,6 @@ angular.module('Microshop.products.add-to-cart-directive', [])
 
                         transformShow = false;
                     } else {
-                        console.log("2nd time+", shoppingCartCount)
                         var animateEffect = "bounce";
 
                         if(addToCartCount >=4 ) {

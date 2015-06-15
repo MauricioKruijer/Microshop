@@ -6,6 +6,7 @@ angular.module('Microshop', [
     'Microshop.view1',
     'Microshop.view2',
     'Microshop.products',
+    'Microshop.cart',
     'Microshop.version'
 ]).
 config(['$routeProvider', function($routeProvider) {

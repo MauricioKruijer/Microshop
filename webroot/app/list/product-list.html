@@ -1,0 +1,95 @@
+<style>
+    html,body {
+        height:100%;
+    }
+
+    .row-flex, .row-flex > div[class*='col-'] {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        flex:1 1 auto;
+    }
+
+    .row-flex-wrap {
+        -webkit-flex-flow: row wrap;
+        align-content: flex-start;
+        flex:0;
+    }
+
+    .row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
+        margin:-.2px; /* hack adjust for wrapping */
+    }
+
+    .container-flex > div[class*='col-'] div,.row-flex > div[class*='col-'] div {
+        width:100%;
+    }
+
+
+    .flex-col {
+        display: flex;
+        display: -webkit-flex;
+        flex: 1 100%;
+        flex-flow: column nowrap;
+    }
+
+    .flex-grow {
+        display: flex;
+        -webkit-flex: 2;
+        flex: 2;
+    }
+</style>
+
+<!-- Jumbotron Header -->
+<header class="jumbotron hero-spacer" style="">
+    <h1>Hey, let's start a project</h1>
+
+    <p>
+        Creativity is inventing, experimenting, growing, taking risks, breaking rules, making mistakes and having fun. <br />
+        Your ideas, our tools: a match made in project heaven.
+    </p>
+
+    <p><a class="btn btn-primary btn-large">Call to action!</a>
+    </p>
+</header>
+
+<!-- Title -->
+<div class="row">
+    <div class="col-lg-12">
+        <hr>
+        <!-- Title -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>New products</h3>
+            </div>
+        </div>
+        <!-- /.row -->
+        <!-- Page Features -->
+        <div class="row row-flex row-flex-wrap text-center">
+
+            <div class="col-md-3 col-sm-6 hero-feature" data-ng-repeat="product in products">
+                <div class="thumbnail">
+                    <img ng-src="{{product.image}}" class="product_image_{{product.id}}" alt="">
+
+                    <div class="caption">
+                        <!--<h4>{{product.name}}</h4>-->
+                        <h3>{{product.name}}</h3>
+
+                        <p>{{product.short_description}}</p>
+
+                        <p>€{{product.price}}</p>
+
+
+                    </div>
+                    <p>
+                        <add-to-cart></add-to-cart> <a href ng-href="#/products/{{product.id}}" class="btn btn-default">More
+                        Info</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div>
+</div>

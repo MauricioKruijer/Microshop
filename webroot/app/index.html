@@ -1,0 +1,118 @@
+<html lang="en" ng-app="Microshop">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Microshop</title>
+    <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/evil-icons/1.7.2/evil-icons.min.css">-->
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootswatch-dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="heroic-features.css">
+    <link rel="stylesheet" href="https://daneden.github.io/animate.css/animate.min.css">
+
+    <style>
+
+    </style>
+
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="headnav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand DEZE" href="#/products">Webshop</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#/view1">View 1</a>
+                </li>
+                <li>
+                    <a href="#/view2">View 2 </a>
+                </li>
+                <li id="nav-shopping-cart">
+                    <a href="#/cart">Cart <span class="badge"></span></a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+
+<!-- Page Content -->
+<div class="container">
+    <!-- ng view directive -->
+    <div ng-view></div>
+    <!-- / ng view directive-->
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Webshop v<span app-version></span></p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+<!-- /.container -->
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+
+<script src="//cdn.jsdelivr.net/evil-icons/1.7.2/evil-icons.min.js"></script>
+
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+
+
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+
+<script src="app.js"></script>
+
+<script src="list/product-list.js"></script>
+
+<script src="detail/product-detail.js"></script>
+
+<script src="view1/view1.js"></script>
+<script src="view2/view2.js"></script>
+
+<script src="components/products/products.js"></script>
+<script src="components/products/add-to-cart-directive.js"></script>
+<script src="components/products/services.js"></script>
+
+<script src="components/version/version.js"></script>
+<script src="components/version/version-directive.js"></script>
+<script src="components/version/interpolate-filter.js"></script>
+
+</body>
+</html>

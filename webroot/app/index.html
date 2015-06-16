@@ -26,7 +26,7 @@
     </style>
 
 </head>
-<body>
+<body flow-prevent-drop>
 
 <!-- Navigation -->
 <nav id="headnav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -98,6 +98,10 @@
 <script src="bower_components/angular-resource/angular-resource.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 
+<script src="bower_components/angular-elastic/elastic.js"></script>
+<script src="bower_components/flow.js/dist/flow.min.js"></script>
+<script src="bower_components/ng-flow/dist/ng-flow.min.js"></script>
+
 <script src="app.js"></script>
 
 <script src="list/product-list.js"></script>
@@ -105,12 +109,15 @@
 
 <script src="detail/product-detail.js"></script>
 
+
 <script src="view1/view1.js"></script>
 <script src="view2/view2.js"></script>
 
 <script src="components/products/products.js"></script>
 <script src="components/products/add-to-cart-directive.js"></script>
 <script src="components/products/services.js"></script>
+
+<script src="add/product-add.js"></script>
 
 <script src="components/cart/cart.js"></script>
 

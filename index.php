@@ -2,6 +2,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 define("APP_ROOT", "/Users/Mauricio/Sites/microshop/app/");
+define("PROJECT_ROOT", "/Users/Mauricio/Sites/microshop/");
 
 require_once __DIR__ . '/app/config/config.php';
 
@@ -47,6 +48,7 @@ $klein->with('/cart', __DIR__ . '/app/routes/cart.php');
 $klein->with('/product', __DIR__ . '/app/routes/product.php');
 $klein->with('/products', __DIR__ . '/app/routes/products.php');
 $klein->with("/user", __DIR__. '/app/routes/user.php');
+$klein->with("/photos", __DIR__. '/app/routes/photos.php');
 //$klein->with("/user", function() use ($klein) {
 //    $klein->respond("/", function() {
 //        return "YO USERS";

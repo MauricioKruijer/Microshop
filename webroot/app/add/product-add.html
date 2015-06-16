@@ -27,15 +27,19 @@
     <section>
         <!--<form class="form-horizontal">-->
         <div class="form-group">
+        <!--<div class="form-group has-error">-->
             <label for="inputProductName" class="control-label col-xs-2">Product name</label>
-            <div class="col-xs-10">
+            <div class="col-xs-10 ">
                 <input type="text" id="inputProductName" class="form-control" placeholder="My awesome new product">
+                <p class="help-block"></p>
             </div>
+            <!--<p class="help-block">The user's name is required</p>-->
         </div>
         <div class="form-group">
             <label for="inputSku" class="control-label col-xs-2">Product SKU</label>
             <div class="col-xs-10">
                 <input type="text" class="form-control" id="inputSku" placeholder="SKU or EAN 3253920672131">
+                <p class="help-block"></p>
             </div>
         </div>
 
@@ -43,15 +47,20 @@
             <label for="inputShortDescription" class="control-label col-xs-2">Short description</label>
             <div class="col-xs-10">
                 <input type="text" class="form-control" id="inputShortDescription" placeholder="Short description show on overview page">
+                <p class="help-block"></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputFullDescription" class="control-label col-xs-2">Full description</label>
+            <div class="col-xs-10">
+                <textarea id="inputFullDescription" rows="3" class="form-control animate msd-elastic: \n;" data-ng-model="description" placeholder="Click here to type more awesomeness"></textarea>
+                <p class="help-block"></p>
             </div>
         </div>
     </section>
-    <h3>Full description</h3>
-    <section>
-        <textarea rows="3" class="animate msd-elastic: \n;" data-ng-model="description" placeholder="Click here to type more awesomeness"></textarea>
-    </section>
 
-    <h3>Gallery upload</h3>
+    <h3>Photo upload</h3>
     <div class="container" flow-init flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
         <div class="row">
             <div class="drop" flow-drop ng-class="dropClass">
@@ -90,9 +99,6 @@
                     </a>
 
                 </div>
-
-
-
             </div>
         </div>
 

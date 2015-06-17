@@ -1,10 +1,5 @@
+<a href="/billing/add">Add new address</a><br />
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 17/06/15
- * Time: 05:52
- */
 $totalBillingItems = count($this->billingItems);
 foreach($this->billingItems as $billing):
 ?>

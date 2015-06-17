@@ -30,7 +30,7 @@
         <!--<a href class="btn btn-primary add-to-cart pull-right" title="Add to shopping cart"><i class="fa fa-shopping-cart"></i> Add</a> <br />-->
         <h3>Description</h3>
         <!--<p>{{product.description}}</p>-->
-        <p data-ng-repeat="p in description">{{p }}</p>
+        <p data-ng-repeat="p in (description) track by $index">{{p }}</p>
         <h3>Product Details</h3>
         <ul>
             <li>Lorem Ipsum</li>

@@ -24,9 +24,19 @@ $this->respond('POST', '/create', function($req, $res, $service, $app) {
 
         $user = new User($req->paramsPost()->all());
 
+        if($userService->findUserByEmail($req->email)) throw new \Exception("Email already in use");
+
+        if($req->password !== $req->password2) throw new \Exception("Passwords dont match");
+
+        $res->cookie("first_name", $req->first_name);
+
         $userId = $userService->persist($user);
 
-        $res->json(['success' => ['message' => "User successfully created!", 'id'=> $userId]]);
+        if($req->redirect) {
+            $res->redirect("/billing");
+        } else {
+            $res->json(['success' => ['message' => "User successfully created!", 'id'=> $userId]]);
+        }
     } catch (\Klein\Exceptions\ValidationException $e) {
         $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'validation']]);
     } catch(PDOException $e) {

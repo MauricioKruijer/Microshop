@@ -11,3 +11,4 @@ foreach($this->cart->getProductsList() as $product): ?>
         <a href="/cart/<?=$product->getId()?>/delete">Delete one</a>
     </div>
 <?php endforeach;?>
+<a href="/checkout">Checkout</a>

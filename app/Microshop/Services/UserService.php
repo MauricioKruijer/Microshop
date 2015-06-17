@@ -18,7 +18,12 @@ class UserService {
     public function __construct(ExtendedPdo $db) {
         $this->db = $db;
     }
+    public function findUserByEmail($userEmail) {
+        $stmt = "SELECT `id` FROM `users` WHERE `email` = :email LIMIT 1";
+        $bind = ['email' => $userEmail];
 
+        return $this->db->fetchOne($stmt,$bind);
+    }
     public function findByUserId($userId){
         $stmt = "SELECT * FROM `users` WHERE `id` = :id LIMIT 1";
         $bind = ['id' => $userId];

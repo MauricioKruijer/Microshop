@@ -28,9 +28,11 @@ $this->respond('POST', '/create', function($req, $res, $service, $app) {
 
         if($req->password !== $req->password2) throw new \Exception("Passwords dont match");
 
-        $res->cookie("first_name", $req->first_name);
+        $res->cookie("first_name", $req->first_name); // hack hack hack
+
 
         $userId = $userService->persist($user);
+        $res->cookie("user_id", $userId); // hack hack hack
 
         if($req->redirect) {
             $res->redirect("/billing");
@@ -117,3 +119,40 @@ $this->respond('GET',"/[i:id]", function($req, $res, $service, $app) {
     }
 });
 //$service->render('./app/views/user/add.php');
+
+$this->respond("GET", '/login', function($req, $res, $service, $app) {
+    if(isset($_COOKIE['user_id'])) return $res->redirect("/billing");
+    $service->render("./app/views/user/login.php");
+});
+$this->respond("POST", '/login',function($req, $res, $service, $app) {
+    try {
+        $service->validateParam('email', 'Please provide a valid email address')->isEmail();
+
+        $userService = new UserService($app->db);
+
+        if($user = $userService->findUserByEmail($req->email)) {
+            $res->cookie("user_id", $user['id']);
+            $res->redirect("/billing");
+        } else {
+            $service->flash("User not found / incorrect password.");
+            $res->redirect("/login");
+        }
+
+    } catch (\Klein\Exceptions\ValidationException $e) {
+        $service->flash($e->getMessage());
+        $res->redirect("/login");
+//        $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'validation']]);
+    }
+
+
+});
+$this->respond("GET", "/logout", function($req, $res, $service) {
+    \Microshop\Utils\Session::destroy();
+    foreach($_COOKIE as $key => $val) {
+        $res->cookie($key, null);
+    }
+    $res->redirect("/user/login");
+});
+$this->respond("GET", '/signup', function($req, $res, $service) {
+    $service->render("./app/views/user/signup.php");
+});

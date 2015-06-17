@@ -1,3 +1,6 @@
+<a href="/cart">Go to shopingcart</a> <br />
+<a href="/user/login">Go to login</a> <br />
+
 <?php foreach($this->products as $product): ?>
     
             <div>

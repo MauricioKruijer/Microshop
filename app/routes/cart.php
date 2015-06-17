@@ -55,7 +55,7 @@ $cartOverview = function($req, $res, $service, $app) use($cart) {
         $res->json($toJson);
     } else {
         $service->cart = $cart;
-        Session::dump();
+//        Session::dump();
         $service->render('./app/views/cart/overview.php');
     }
 

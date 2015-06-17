@@ -34,6 +34,23 @@ $this->respond("GET", '/[i:id]/makeprimary', function($req, $res, $service, $app
         throw new \Exception("User permission issue");
     }
 });
+$this->respond("POST", '/[i:id]/edit', function($req, $res, $service, $app) {
+    if(!isset($_COOKIE['user_id'])) return $res->redirect("/");
+    $userId = $_COOKIE['user_id'];
+
+    $billingService = new BillingService($app->db);
+    if($billingItem = $billingService->findForUserById($req->id, $userId)) {
+        $billing = new Billing($req->params());
+        $billing->setId($req->id);
+
+        $billingService->persist($billing);
+
+        $service->flash("Address updated!");
+        $res->redirect("/billing");
+    } else{
+        throw new \Exception("User permission issue");
+    }
+});
 $this->respond("POST", '/add/[additional:additional]?', function($req, $res, $service, $app){
     try {
         $service->validateParam("full_address", "Address is mandatory")->isLen(1, 255);

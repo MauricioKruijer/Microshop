@@ -16,6 +16,7 @@ class User extends \Microshop\Utils\BasicObject {
         $password,
         $shipping_id,
         $billing_id;
+    private $password_hash, $user_session_key;
 
     function __construct($user) {
         if(!isset($user['first_name'])) throw new \Exception("First name is mandatory");
@@ -28,6 +29,8 @@ class User extends \Microshop\Utils\BasicObject {
         $this->last_name = $user['last_name'];
         $this->email = $user['email'];
         $this->password = $user['password'];
+        $this->password_hash = (isset($user['password_hash']) ? $user['password_hash'] : null);
+        $this->user_session_key = (isset($user['user_session_key']) ? $user['user_session_key'] : null);
         $this->shipping_id = (isset($user['shipping_id']) ? $user['shipping_id'] : null);
         $this->billing_id = (isset($user['billing_id']) ? $user['billing_id'] : null);
         $this->created_time = (isset($user['created_time']) ? $user['created_time'] : null);
@@ -127,6 +130,38 @@ class User extends \Microshop\Utils\BasicObject {
     public function setBillingId($billing_id)
     {
         $this->billing_id = $billing_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPasswordHash()
+    {
+        return $this->password_hash;
+    }
+
+    /**
+     * @param mixed $password_hash
+     */
+    public function setPasswordHash($password_hash)
+    {
+        $this->password_hash = $password_hash;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserSessionKey()
+    {
+        return $this->user_session_key;
+    }
+
+    /**
+     * @param mixed $user_session_key
+     */
+    public function setUserSessionKey($user_session_key)
+    {
+        $this->user_session_key = $user_session_key;
     }
 
 }

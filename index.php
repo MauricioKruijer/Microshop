@@ -9,6 +9,7 @@ ini_set('always_populate_raw_post_data' , -1);
 require_once __DIR__ . '/app/config/config.php';
 
 use \Aura\Sql\ExtendedPdo;
+use Microshop\Services\UserService;
 
 
 $klein = new \Klein\Klein();
@@ -24,6 +25,7 @@ $klein->respond(function ($request, $response, $service, $app) {
             array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
         );
     });
+    $app->userService = new UserService($app->db);
 });
 $klein->respond('GET', '/test', function($request, $response, $service) {
     $service->flash("yo me boy");

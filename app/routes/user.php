@@ -7,7 +7,9 @@
  */
 use Microshop\Services\UserService;
 use Microshop\Models\User;
-
+use Microshop\Utils\PassHash;
+use Microshop\Utils\Session;
+//Session::dump();
 $this->respond("/?", function($req, $res) {
     $res->redirect("/");
 });
@@ -29,6 +31,17 @@ $this->respond('POST', '/create', function($req, $res, $service, $app) {
         if($req->password !== $req->password2) throw new \Exception("Passwords dont match");
 
         $res->cookie("first_name", $req->first_name); // hack hack hack
+
+        // todo fix
+        $length = 64;
+        $bytes = openssl_random_pseudo_bytes($length * 2);
+
+        $userSessionKey = substr(str_replace(array('/', '+', '='), '', base64_encode($bytes)), 0, $length);
+        Session::write("user_session_key", $userSessionKey);
+
+//        $user->setPasswordHash();
+        $user->setPassword(PassHash::hash($req->password));
+        $user->setUserSessionKey($userSessionKey);
 
 
         $userId = $userService->persist($user);
@@ -131,8 +144,27 @@ $this->respond("POST", '/login',function($req, $res, $service, $app) {
         $userService = new UserService($app->db);
 
         if($user = $userService->findUserByEmail($req->email)) {
-            $res->cookie("user_id", $user['id']);
-            $res->redirect("/billing");
+
+            if(PassHash::check_password($user['password'], $req->password)) {
+                $res->cookie("user_id", $user['id']); // hack hack
+
+                $length = 64;
+                $bytes = openssl_random_pseudo_bytes($length * 2);
+
+                $userSessionKey = substr(str_replace(array('/', '+', '='), '', base64_encode($bytes)), 0, $length);
+                Session::write("user_session_key", $userSessionKey);
+
+
+                $userData = $userService->findByUserId($user['id']);
+                $user = new User($userData);
+                $user->setUserSessionKey($userSessionKey);
+                $userService->persist($user);
+
+                $res->redirect("/billing");
+            } else {
+                $service->flash("User not found / incorrect password. Boo-hoo");
+                $res->redirect("/login");
+            }
         } else {
             $service->flash("User not found / incorrect password.");
             $res->redirect("/login");
@@ -147,7 +179,7 @@ $this->respond("POST", '/login',function($req, $res, $service, $app) {
 
 });
 $this->respond("GET", "/logout", function($req, $res, $service) {
-    \Microshop\Utils\Session::destroy();
+    Session::destroy();
     foreach($_COOKIE as $key => $val) {
         $res->cookie($key, null);
     }

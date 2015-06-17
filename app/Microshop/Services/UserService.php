@@ -19,7 +19,7 @@ class UserService {
         $this->db = $db;
     }
     public function findUserByEmail($userEmail) {
-        $stmt = "SELECT `id` FROM `users` WHERE `email` = :email LIMIT 1";
+        $stmt = "SELECT `id`, `password` FROM `users` WHERE `email` = :email LIMIT 1";
         $bind = ['email' => $userEmail];
 
         return $this->db->fetchOne($stmt,$bind);
@@ -38,6 +38,8 @@ class UserService {
                   `last_name` = :last_name,
                   `email` = :email,
                   `password` = :password,
+                  `password_hash` = :password_hash,
+                  `user_session_key` = :user_session_key,
                   `billing_id` = :billing_id,
                   `shipping_id` = :shipping_id,
                   `is_deleted` = :is_deleted,
@@ -49,6 +51,8 @@ class UserService {
                 'last_name' => $user->getLastName(),
                 'email' => $user->getEmail(),
                 'password' => $user->getPassword(),
+                'password_hash' => $user->getPasswordHash(),
+                'user_session_key' => $user->getUserSessionKey(),
                 'billing_id' => $user->getBillingId(),
                 'shipping_id' => $user->getShippingId(),
                 'is_deleted' => $user->getIsDeleted(),
@@ -58,13 +62,15 @@ class UserService {
 
             return $this->db->perform($stmt, $bind);
         } else {
-            $stmt = "INSERT INTO `users` (first_name, last_name, email, password, created_time) VALUES (:vals)";
+            $stmt = "INSERT INTO `users` (first_name, last_name, email, password, password_hash, user_session_key, created_time) VALUES (:vals)";
             $bind = [
                 'vals' => [
                     $user->getFirstName(),
                     $user->getLastName(),
                     $user->getEmail(),
                     $user->getPassword(),
+                    $user->getPasswordHash(),
+                    $user->getUserSessionKey(),
                     date('c')
                 ]
             ];

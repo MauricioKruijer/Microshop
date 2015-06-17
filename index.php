@@ -4,6 +4,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 define("APP_ROOT", "/Users/Mauricio/Sites/microshop/app/");
 define("PROJECT_ROOT", "/Users/Mauricio/Sites/microshop/");
 
+ini_set('always_populate_raw_post_data' , -1);
+
 require_once __DIR__ . '/app/config/config.php';
 
 use \Aura\Sql\ExtendedPdo;
@@ -45,6 +47,7 @@ $klein->respond('GET', '/', function ($request, $response, $service, $app) {
 });
 
 $klein->with('/cart', __DIR__ . '/app/routes/cart.php');
+$klein->with('/shoppingcart', __DIR__ . '/app/routes/shoppingcart.php');
 $klein->with('/product', __DIR__ . '/app/routes/product.php');
 $klein->with('/products', __DIR__ . '/app/routes/products.php');
 $klein->with("/user", __DIR__. '/app/routes/user.php');

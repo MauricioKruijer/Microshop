@@ -6,7 +6,17 @@
         </ol>
     </div>
 </div>
-<section id="cart_items">
+<div cart-button>aa</div>
+<section ng-if="cartItems.length == 0">
+    <div class="container">
+        <div class="row">
+            <div class="well">
+                <p>Shoping cart is empty</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section ng-if="cartItems.length > 0" id="cart_items">
     <div class="container">
         <div class="table-responsive cart_info">
             <table class="table table-condensed"  ng-init="cartItems.total = {}">

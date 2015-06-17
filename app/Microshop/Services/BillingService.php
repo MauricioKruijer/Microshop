@@ -16,6 +16,11 @@ class BillingService {
     public function __construct(ExtendedPdo $db){
         $this->db = $db;
     }
+    public function findForUserById($billingId, $userId) {
+        $stmt = "SELECT `id` FROM `billing` WHERE `id` = :id AND `user_id` = :user_id LIMIT 1";
+        $bind = ['id' =>$billingId, 'user_id' => $userId];
+        return $this->db->fetchOne($stmt, $bind);
+    }
     public function getBillingAddresses($userId) {
         $stmt = "SELECT * FROM `billing` WHERE `user_id` = :user_id LIMIT 10";
         $bind = ['user_id' => $userId];

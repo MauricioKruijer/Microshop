@@ -11,7 +11,6 @@ $this->respond("GET", "/?", function($req, $res, $service, $app) {
 //        $service->billings = [];
         $billingItems = [];
         foreach ($billingAddresses as $billingAddress) {
-            var_dump($billingAddress);
             $billing = new Billing($billingAddress);
             $billingItems[] = $billing;
         }
@@ -19,6 +18,20 @@ $this->respond("GET", "/?", function($req, $res, $service, $app) {
         $service->render("./app/views/billing/overview.php");
     } else {
         $res->redirect("/billing/add");
+    }
+});
+$this->respond("GET", '/[i:id]/makeprimary', function($req, $res, $service, $app) {
+    if(!isset($_COOKIE['user_id'])) return $res->redirect("/");
+    $userId = $_COOKIE['user_id'];
+
+    $billingService = new BillingService($app->db);
+    if($billingItem = $billingService->findForUserById($req->id, $userId)) {
+        $billingService->ensurePrimaryAddress($billingItem['id'], $userId);
+
+        $service->flash("New primary address selected!");
+        $res->redirect("/billing");
+    } else{
+        throw new \Exception("User permission issue");
     }
 });
 $this->respond("POST", '/add/[additional:additional]?', function($req, $res, $service, $app){

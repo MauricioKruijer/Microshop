@@ -17,7 +17,7 @@ class Cart extends \Microshop\Utils\BasicObject  {
 
     private $totalCartItems = 0;
 
-    public $totalPrice = 0;
+    public $totalCartValue = 0;
 
     public function __construct() {
         Session::start();
@@ -68,6 +68,22 @@ class Cart extends \Microshop\Utils\BasicObject  {
         } else {
             throw new \Exception("Item cant be removed from cart");
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalCartValue()
+    {
+        return $this->totalCartValue;
+    }
+
+    /**
+     * @param int $totalCartValue
+     */
+    public function setTotalCartValue($totalCartValue)
+    {
+        $this->totalCartValue = $totalCartValue;
     }
 
     /**

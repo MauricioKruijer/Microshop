@@ -34,7 +34,7 @@ $cartOverview = function($req, $res, $service, $app) use($cart) {
         foreach ($cartItems as $cartItem) {
             $foundProduct = $productService->findByProductId($cartItem['product_id']);
             if(empty($foundProduct)) {
-                // product dissapeared from database, let purge it from cart haha
+                // product disappeared from database, let purge it from cart haha
                 Session::remove("cart_products", "id_".$cartItem['product_id'] );
                 $cartService->removeProductFromCart($cartItem['product_id'], $sessionKey);
             } else {

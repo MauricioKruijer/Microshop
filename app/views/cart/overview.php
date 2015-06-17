@@ -1,6 +1,6 @@
 <h1>Total items <?=$this->cart->getTotalCartItems()?></h1>
 
-<?php
+<?php var_dump($this->cart);
 foreach($this->cart->getProductsList() as $product): ?>
 
     <div>

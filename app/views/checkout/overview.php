@@ -8,3 +8,4 @@
 use Microshop\Utils\Session;
 
 Session::dump();
+var_dump($this->cart->getTotalCartValue());

@@ -1,7 +1,11 @@
 <a href="/cart">Go to shopingcart</a> <br />
+<?php if(isset($_COOKIE['user_id'])): ?>
+<a href="/user/logout">Go to logout</a> <br />
+    <?php else: ?>
 <a href="/user/login">Go to login</a> <br />
-
-<?php foreach($this->products as $product): ?>
+<?php
+    endif;
+    foreach($this->products as $product): ?>
     
             <div>
                 <h2><?=$product['name']?></h2>

@@ -9,3 +9,6 @@
     <p><label for="password2">Repeat password: <input id="password2" type="password" name="password2"/></label></p>
     <p><input type="submit" value="register"/></p>
 </form>
+
+<?php
+$this->render("./app/views/user/login.php");?>

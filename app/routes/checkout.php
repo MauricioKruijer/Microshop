@@ -9,5 +9,10 @@ use Microshop\Utils\Session;
 Session::start();
 
 $this->respond("GET", "/?", function($req, $res, $service, $app) {
-    $service->render("./app/views/checkout/step1.php");
+    if(isset($_COOKIE['user_id'])) {
+        $service->render("./app/views/checkout/overview.php");
+    } else {
+        $service->render("./app/views/checkout/signup_or_login.php");
+    }
+
 });

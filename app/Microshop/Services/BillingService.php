@@ -17,7 +17,7 @@ class BillingService {
         $this->db = $db;
     }
     public function findForUserById($billingId, $userId) {
-        $stmt = "SELECT `id` FROM `billing` WHERE `id` = :id AND `user_id` = :user_id LIMIT 1";
+        $stmt = "SELECT * FROM `billing` WHERE `id` = :id AND `user_id` = :user_id LIMIT 1";
         $bind = ['id' =>$billingId, 'user_id' => $userId];
         return $this->db->fetchOne($stmt, $bind);
     }

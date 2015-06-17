@@ -13,7 +13,9 @@ class User extends \Microshop\Utils\BasicObject {
     private $email,
         $first_name,
         $last_name,
-        $password;
+        $password,
+        $shipping_id,
+        $billing_id;
 
     function __construct($user) {
         if(!isset($user['first_name'])) throw new \Exception("First name is mandatory");
@@ -26,6 +28,8 @@ class User extends \Microshop\Utils\BasicObject {
         $this->last_name = $user['last_name'];
         $this->email = $user['email'];
         $this->password = $user['password'];
+        $this->shipping_id = (isset($user['shipping_id']) ? $user['shipping_id'] : null);
+        $this->billing_id = (isset($user['billing_id']) ? $user['billing_id'] : null);
         $this->created_time = (isset($user['created_time']) ? $user['created_time'] : null);
     }
 
@@ -92,4 +96,37 @@ class User extends \Microshop\Utils\BasicObject {
     {
         $this->email = $email;
     }
+
+    /**
+     * @return null
+     */
+    public function getShippingId()
+    {
+        return $this->shipping_id;
+    }
+
+    /**
+     * @param null $shipping_id
+     */
+    public function setShippingId($shipping_id)
+    {
+        $this->shipping_id = $shipping_id;
+    }
+
+    /**
+     * @return null
+     */
+    public function getBillingId()
+    {
+        return $this->billing_id;
+    }
+
+    /**
+     * @param null $billing_id
+     */
+    public function setBillingId($billing_id)
+    {
+        $this->billing_id = $billing_id;
+    }
+
 }

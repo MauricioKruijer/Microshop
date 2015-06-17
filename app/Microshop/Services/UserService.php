@@ -38,6 +38,8 @@ class UserService {
                   `last_name` = :last_name,
                   `email` = :email,
                   `password` = :password,
+                  `billing_id` = :billing_id,
+                  `shipping_id` = :shipping_id,
                   `is_deleted` = :is_deleted,
                   `last_updated_time` = :last_updated_time
               WHERE `id` = :id LIMIT 1";
@@ -47,6 +49,8 @@ class UserService {
                 'last_name' => $user->getLastName(),
                 'email' => $user->getEmail(),
                 'password' => $user->getPassword(),
+                'billing_id' => $user->getBillingId(),
+                'shipping_id' => $user->getShippingId(),
                 'is_deleted' => $user->getIsDeleted(),
                 'last_updated_time' => date('c'),
                 'id' => $userId

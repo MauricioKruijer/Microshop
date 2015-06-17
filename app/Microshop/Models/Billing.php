@@ -19,7 +19,7 @@ class Billing extends BasicObject {
     public function __construct($billing) {
         $this->id = (isset($billing['id']) ?$billing['id'] : null );
         $this->full_address = (isset($billing['full_address']) ?$billing['full_address'] : null );
-        $this->type = (isset($billing['type']) ? $billing['type'] : null );
+        $this->type = (isset($billing['type']) ? $billing['type'] : 1 );
         $this->user_id = (isset($billing['user_id']) ? $billing['user_id'] : null );
 
         $this->name = (isset($billing['name']) ?$billing['name'] : null );

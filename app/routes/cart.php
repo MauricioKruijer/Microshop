@@ -32,10 +32,15 @@ $cartOverview = function($req, $res, $service, $app) use($cart) {
 
     if($cartItems = $cartService->findCartItemsBySessionKey($sessionKey)) {
         foreach ($cartItems as $cartItem) {
-            $producttmp = $productService->findByProductId($cartItem['product_id']);
-            $product = new Product($producttmp);
-
-            $cart->addProduct($product, $cartItem['quantity']);
+            $foundProduct = $productService->findByProductId($cartItem['product_id']);
+            if(empty($foundProduct)) {
+                // product dissapeared from database, let purge it from cart haha
+                Session::remove("cart_products", "id_".$cartItem['product_id'] );
+                $cartService->removeProductFromCart($cartItem['product_id'], $sessionKey);
+            } else {
+                $product = new Product($foundProduct);
+                $cart->addProduct($product, $cartItem['quantity']);
+            }
         }
         $cartTotalItemCount = $cartService->countTotalCartItemsBySessionKey($sessionKey);
         $cart->setTotalCartItems($cartTotalItemCount['total_items']);
@@ -50,7 +55,7 @@ $cartOverview = function($req, $res, $service, $app) use($cart) {
         $res->json($toJson);
     } else {
         $service->cart = $cart;
-//        Session::dump();
+        Session::dump();
         $service->render('./app/views/cart/overview.php');
     }
 
@@ -58,8 +63,7 @@ $cartOverview = function($req, $res, $service, $app) use($cart) {
 
 $this->respond("/?", $cartOverview);
 $this->respond("/cart.[json:format]", $cartOverview);
-
-$this->respond('GET', "/[i:id]/add", function($req, $res, $service, $app) use($cart) {
+$this->respond('GET', "/[i:id]/add.[json:format]?", function($req, $res, $service, $app) use($cart) {
     $sessionKey = Session::read("cart_session_key");
 
     $cartService = new CartService($app->db);
@@ -72,14 +76,18 @@ $this->respond('GET', "/[i:id]/add", function($req, $res, $service, $app) use($c
         $cart->addProduct($product, 1); // todo set quantity from param
 
         $cartService->saveProductToCart($product->getId(), $sessionKey);
+        if($req->format == 'json') {
+            $res->json(['success' => ['message' => 'Product successfully added to cart!']]);
+        } else {
+            $res->redirect("/cart");
+        }
 
-        $res->json(['success' => ['message' => 'Product successfully added to cart!']]);
     } else {
         $res->json(['error' => ['message' => 'Product not found']]);
     }
 });
 
-$this->respond('GET', "/[i:id]/delete", function($req, $res, $service, $app) use($cart) {
+$this->respond('GET', "/[i:id]/delete.[json:format]?", function($req, $res, $service, $app) use($cart) {
     $sessionKey = Session::read("cart_session_key");
 
     $cartService = new CartService($app->db);
@@ -98,8 +106,11 @@ $this->respond('GET', "/[i:id]/delete", function($req, $res, $service, $app) use
         Session::add("cart_products", ["id_".$req->id => $itemsLeftInCart]);
         $cartService->substractProductFromCart($req->id, $sessionKey);
     }
-
-    $res->json(['success' => ['message' => 'Product successfully removed from to cart!', $itemsLeftInCart]]);
+    if($req->format == 'json') {
+        $res->json(['success' => ['message' => 'Product successfully removed from to cart!', 'quantity' => $itemsLeftInCart]]);
+    } else {
+        $res->redirect('/cart');
+    }
 });
 $this->respond('POST', "/add", function($req, $res) use($cart) {
     $cart->addProductById($req->id); // TODO handle $req->amount n product item(s)

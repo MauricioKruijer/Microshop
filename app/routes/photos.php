@@ -6,7 +6,10 @@
  * Time: 11:20
  */
 
-$this->respond(array("GET", "POST"), '/add.json', function($req, $res) {
+use Microshop\Models\Photo;
+use Microshop\Services\PhotoService;
+
+$this->respond(array("GET", "POST"), '/add.json', function($req, $res, $service, $app) {
     $chunkDir = PROJECT_ROOT . 'temp';
     $uploadDir = PROJECT_ROOT . 'webroot/uploads';
 
@@ -22,7 +25,7 @@ $this->respond(array("GET", "POST"), '/add.json', function($req, $res) {
 //            $headerVal = "200 Ok";
         } else {
 //            header("HTTP/1.1 204 No Content");
-            sleep(3);
+//            sleep(3);
             return $res->header("HTTP/1.1", "204 No Content")->send();
 //            return ;
         }
@@ -54,10 +57,31 @@ $this->respond(array("GET", "POST"), '/add.json', function($req, $res) {
 
         if(in_array($fileMimeType, array_keys($allowedExtension))) {
             $newFileName = $uploadedFile . $allowedExtension[$fileMimeType];
+            $fullFilename = $randomName  . $allowedExtension[$fileMimeType];
+
             rename($uploadedFile, $newFileName);
-            $res->json(['success',$newFileName]);
+            list($imageWidth, $imageHeight) = getimagesize($newFileName);
+
+            $checksum = sha1_file($newFileName);
+
+            $photo = [
+                'width' => $imageWidth,
+                'height' => $imageHeight,
+                'name' => $fullFilename,
+                'type' => $fileMimeType,
+                'path' => str_replace(PROJECT_ROOT, '', $uploadDir),
+                'checksum' => $checksum
+            ];
+//            var_dump($photo);
+            $photoService = new PhotoService($app->db);
+            $photo = new Photo($photo);
+
+            $photoId = $photoService->persist($photo);
+//            var_dump($photo);
+            $res->json(['success' => ['message' => 'Successfully uploaded image', 'image_id' => $photoId]]);
         } else {
-            $res->json(['error']);
+            unlink($uploadedFile);
+            $res->json(['error' => ['message'=> 'Type not allowed']]);
         }
         // File upload was completed
 //        echo "JA";

@@ -5,6 +5,7 @@
  * Date: 13/06/15
  * Time: 12:28
  */
+use Microshop\Models\Product;
 use \Microshop\Services\ProductService;
 
 $this->respond("/?", function($req, $res) {
@@ -12,17 +13,22 @@ $this->respond("/?", function($req, $res) {
 });
 // Test with:
 // curl --data "name=a" http://microshop.dev:8888/product/create
-$this->respond('POST', '/create', function($req, $res, $service, $app) {
+$this->respond('POST', '/create.[json:format]?', function($req, $res, $service, $app) {
     $productService = new ProductService($app->db);
     // TODO catch all ValidatorExceptions separately to provide all errors at once instead of one at the time
     try {
         $service->validateParam('name', 'Please provide a valid product name')->isLen(1, 255);
 
-        $product = new \Microshop\Models\Product(array('name'=>$req->params()['name']));
+        $product = new Product($req->params());
 
         $productId = $productService->persist($product);
+        if($req->format == 'json') {
+            $res->json(['success' => ['message' => "Product successfully added!", 'id'=> $productId]]);
+        } else {
+            $service->flash("Sucessfull added productId " . $productId, "success");
+            $res->redirect("/product/create");
+        }
 
-        $res->json(['success' => ['message' => "Product successfully added!", 'id'=> $productId]]);
     } catch (\Klein\Exceptions\ValidationException $e) {
         $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'validation']]);
     } catch(PDOException $e) {
@@ -31,7 +37,9 @@ $this->respond('POST', '/create', function($req, $res, $service, $app) {
         $res->json(["error" => ['message' => $e->getMessage(), 'type' => 'unknown']]);
     }
 });
-
+$this->respond("GET", '/create', function($req, $res, $service, $app) {
+    $service->render("./app/views/product/create.php");
+});
 // Test with:
 // curl --data "name=NewName" http://microshop.dev:8888/product/1/edit
 $this->respond('POST', '/[i:id]/edit', function($req, $res, $service, $app) {
@@ -39,7 +47,7 @@ $this->respond('POST', '/[i:id]/edit', function($req, $res, $service, $app) {
     try {
         $service->validateParam('name', 'Please provide a valid product name')->isLen(1, 255);
         if($fondProduct = $productService->findByProductId($req->id)) {
-            $product = new \Microshop\Models\Product($fondProduct);
+            $product = new Product($fondProduct);
             $product->setName($req->name);
             $productService->persist($product);
 
@@ -64,7 +72,7 @@ $this->respond('DELETE', '/[i:id]/delete', function($req, $res, $service, $app) 
     $productService = new ProductService($app->db);
     try {
         if($fondProduct = $productService->findByProductId($req->id)) {
-            $product = new \Microshop\Models\Product($fondProduct);
+            $product = new Product($fondProduct);
 
             $product->setIsDeleted(1);
             $productService->persist($product);

@@ -37,33 +37,43 @@ class ProductService {
         return $this->db->fetchAll($stmt, $bind);
     }
     public function persist(Product $product) {
-        if($productId = $product->getId()) {
-            $stmt = "UPDATE `products` SET
-              `name` = :name,
-              `is_deleted` = :is_deleted,
-               `last_updated_time` = :last_updated_time
-            WHERE `id` = :id LIMIT 1";
-            $bind = [
-                'id' => $productId,
-                'is_deleted' => $product->getIsDeleted(),
-                'name' => $product->getName(),
-                'last_updated_time' => date('c')
-            ];
+        $stmtTemplate = "
+        %s
+            `name` = :name,
+            `short_description` = :short_description,
+            `sku` = :sku,
+            `quantity` = :quantity,
+            `price` = :price,
+            `photo_id` = :photo_id,
+            `description` = :description,
+            `is_deleted` = :is_deleted,
+            `last_updated_time` = :last_updated_time,
+            `created_time` = :created_time
+        %s
+        ";
 
+        $bind = [
+            'id' => $product->getId(),
+            'name' => $product->getName(),
+            'short_description' => $product->getShortDescription(),
+            'sku' => $product->getSku(),
+            'quantity' => $product->getQuantity(),
+            'price' => $product->getPrice(),
+            'photo_id' => $product->getPhotoId(),
+            'description' => $product->getDescription(),
+            'is_deleted' => $product->getIsDeleted(),
+            'last_updated_time' => $product->getLastUpdatedTime(),
+            'created_time' => date('c')
+        ];
+
+        if($productId = $product->getId()) {
+            $stmt = sprintf($stmtTemplate, "UPDATE `products` SET", "WHERE `id` = :id LIMIT 1");
             return $this->db->perform($stmt, $bind);
         } else {
-            $stmt = "INSERT INTO `products` (name, created_time) VALUES (:vals)";
-            $bind = [
-                'vals' => [
-                    $product->getName(),
-                    date('c')
-                ]
-            ];
-
+            $stmt = sprintf($stmtTemplate, "INSERT INTO `products` SET", "");
             $result = $this->db->perform($stmt, $bind);
-//            echo $result->queryString; // Debugs
             return $this->db->lastInsertId();
-
         }
+
     }
 }

@@ -15,53 +15,76 @@
         background: #5CB85C;
         color: #fff
     }
+    .drop.has-errors {
+        background: red;
+        color: #fff
+    }
     .thumb {
         margin-bottom: 30px;
     }
 </style>
 
-<h1>Add new product</h1>
+<h1 class="text-right">Add new product</h1>
 
-<form class="form-horizontal" flow-drag-enter="dropClass='drag-over'" flow-drag-leave="dropClass=''">
+<form name="addProductForm" class="form-horizontal" flow-drag-enter="dropClass='drag-over'" flow-drag-leave="dropClass=''">
     <h3>General info</h3>
     <section>
         <!--<form class="form-horizontal">-->
-        <div class="form-group">
+        <div class="form-group" show-errors="{showSuccess:true}">
         <!--<div class="form-group has-error">-->
             <label for="inputProductName" class="control-label col-xs-2">Product name</label>
             <div class="col-xs-10 ">
-                <input type="text" id="inputProductName" class="form-control" placeholder="My awesome new product">
+                <input type="text" name="productName" ng-model="product.name" id="inputProductName" class="form-control" placeholder="My awesome new product" ng-blur="validateProductName()" required>
                 <p class="help-block"></p>
             </div>
             <!--<p class="help-block">The user's name is required</p>-->
         </div>
-        <div class="form-group">
+        <div class="form-group" show-errors="{showSuccess: true}">
             <label for="inputSku" class="control-label col-xs-2">Product SKU</label>
             <div class="col-xs-10">
-                <input type="text" class="form-control" id="inputSku" placeholder="SKU or EAN 3253920672131">
+                <input type="text" name="productSku" data-ng-model="product.sku" class="form-control" id="inputSku" placeholder="SKU or EAN 9789400506183" required>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        <div class="form-group" show-errors="{showSuccess: true}">
+            <label for="inputQuantity" class="control-label col-xs-2">Quantity</label>
+            <div class="col-xs-10">
+                <input type="number" min="0" name="productQuantity" data-ng-model="product.quantity" class="form-control" id="inputQuantity" placeholder="Quantity in round digits" required>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        <div class="form-group" show-errors="{showSuccess: true}">
+            <label for="inputPrice" class="control-label col-xs-2">Price IN CENTS (!)</label>
+            <div class="col-xs-10">
+                <input type="number" min="0" name="productPrice" data-ng-model="product.price" class="form-control" id="inputPrice" placeholder="Price in CENTS" required>
                 <p class="help-block"></p>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" show-errors="{showSuccess: true}">
             <label for="inputShortDescription" class="control-label col-xs-2">Short description</label>
             <div class="col-xs-10">
-                <input type="text" class="form-control" id="inputShortDescription" placeholder="Short description show on overview page">
+                <input type="text" name="productShortDescription" data-ng-model="product.short_description" class="form-control" id="inputShortDescription" placeholder="Short description show on overview page" required>
                 <p class="help-block"></p>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" show-errors="{showSuccess: true}">
             <label for="inputFullDescription" class="control-label col-xs-2">Full description</label>
             <div class="col-xs-10">
-                <textarea id="inputFullDescription" rows="3" class="form-control animate msd-elastic: \n;" data-ng-model="description" placeholder="Click here to type more awesomeness"></textarea>
+                <textarea name="productFullDescription" id="inputFullDescription" rows="3" class="form-control animate msd-elastic: \n;" data-ng-model="product.description" placeholder="Click here to type more awesomeness" required></textarea>
                 <p class="help-block"></p>
             </div>
         </div>
     </section>
-
+    <section id="photoUploadThingy">
     <h3>Photo upload</h3>
-    <div class="container" flow-init flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
+    <div class="container"
+         flow-init
+         flow-files-submitted="$flow.upload()"
+         flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
+         flow-file-complete="completeHandlerMethod()"
+         flow-file-success="successMethod($file, $message, $flow)">
         <div class="row">
             <div class="drop" flow-drop ng-class="dropClass">
                 <span class="btn btn-default" flow-btn>Upload Image</span>
@@ -103,11 +126,11 @@
         </div>
 
     </div>
-
+    </section>
     <section>
         <div class="form-actions text-right">
             <button type="button" class="btn">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="submit" class="btn btn-primary" data-ng-click="saveNewProduct()">Save changes</button>
         </div>
     </section>
 </form>

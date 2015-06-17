@@ -45,7 +45,10 @@ class Cart extends \Microshop\Utils\BasicObject  {
 
         return true;
     }
-
+    public function deleteProductById($productId) {
+        // todo
+    }
+    // todo refactor to substractProductById
     public function removeProductById($productId, $quantity = 1){
         if($quantity <= 0) throw new \Exception("Quantity must set higher then 0");
 

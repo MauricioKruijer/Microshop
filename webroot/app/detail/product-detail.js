@@ -16,7 +16,8 @@ angular.module('Microshop.products.product-detail', ['ngRoute']).
         };
     }).
     controller("ProductDetailCtrl", ['$scope', '$routeParams', '$filter','ProductFactory', function($scope, $routeParams, $filter, ProductFactory) {
-        $scope.product = ProductFactory.get({productId: 6}, function(product) {
+        //console.log($routeParams.productId);
+        $scope.product = ProductFactory.get({productId: $routeParams.productId}, function(product) {
             $scope.mainImageUrl = product.images[0];
             $scope.description = $filter('splitNewLines')(product.description);
         });

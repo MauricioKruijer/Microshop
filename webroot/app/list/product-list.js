@@ -10,9 +10,9 @@ angular.module('Microshop.products.product-list', ['ngRoute']).
             controller: 'ProductListCtrl'
         });
     }]).
-    controller('ProductListCtrl', ['$scope','ProductFactory', function($scope, ProductFactory) {
+    controller('ProductListCtrl', ['$scope','ProductFactory', 'Product', function($scope, ProductFactory, Product) {
         //console.log(ProductFactory.query())
-        $scope.products = ProductFactory.query();
+        $scope.products = Product.query();
         //$scope.products = [{
         //    id: 1,
         //    name: "Arduino Pro Mini 328",

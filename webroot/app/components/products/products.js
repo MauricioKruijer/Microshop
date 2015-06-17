@@ -10,4 +10,4 @@ angular.module('Microshop.products', [
     'Microshop.products.product-detail',
     'Microshop.products.add-to-cart-directive'
 ])
-    .value('products.api_endpoint', 'http://microshop.dev:8888/products/:productId.json');
+    .value('products.api_endpoint', 'http://microshop.dev:8888/products/:productId');

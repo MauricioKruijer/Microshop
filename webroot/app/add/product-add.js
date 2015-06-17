@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('Microshop.products.product-add', ['ngRoute', 'monospaced.elastic', 'flow']).
+angular.module('Microshop.products.product-add', ['ngRoute', 'monospaced.elastic', 'flow', 'ui.bootstrap.showErrors']).
     config(['$routeProvider', 'flowFactoryProvider', function($routeProvider, flowFactoryProvider) {
         $routeProvider.when('/products/add', {
             templateUrl: 'add/product-add.html',
@@ -20,9 +20,53 @@ angular.module('Microshop.products.product-add', ['ngRoute', 'monospaced.elastic
             simultaneousUploads: 4
         };
         flowFactoryProvider.on('catchAll', function (event) {
-            console.log('catchAll', arguments);
+            //console.log('catchAll', arguments);
         });
     }]).
-    controller("ProductAddCtrl", ['$scope', 'ProductFactory', function($scope, ProductFactory) {
-        $scope.description = "";
+    controller("ProductAddCtrl", ['$scope', 'Product', function($scope, Product) {
+        //$scope.product = {
+        //    images: []
+        //};
+
+        //$scope.dropClass = "has-errors";
+
+        $scope.product = new Product();
+        $scope.product = {
+            images: []
+        };
+
+
+        $scope.successMethod = function($file, $message, $flow ) {
+            console.log("successMethod>");
+            //console.log($file);
+            var response = JSON.parse($message);
+            if(response.success) {
+                $scope.dropClass = "drop";
+                $scope.product.images.push(response.success.image_id);
+            }
+
+        }
+
+        $scope.saveNewProduct = function() {
+            $scope.$broadcast('show-errors-check-validity');
+            if ($scope.addProductForm.$valid) {
+                //console.log("Save dem shizzle");
+
+                if($scope.product.images.length >0) {
+                    $scope.product.photo_id = $scope.product.images[0];
+
+                    Product.save($scope.product, function(res) {
+                        //console.log("saved product cb", res)
+                        alert("YAY");
+                        $scope.product = new Product();
+                    });
+                } else {
+                    $scope.dropClass = "has-errors";
+
+                    jQuery("#photoUploadThingy").removeClass().addClass("bounce animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                        jQuery(this).removeClass();//.addClass(labelClass);
+                    });//.css('background-color', "#4caf50");
+                }
+            }
+        }
     }]);

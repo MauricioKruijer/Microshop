@@ -1,25 +1,66 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 12/06/15
- * Time: 15:07
- */
-
 namespace Microshop\Models {
 
     use Microshop\Utils\BasicObject;
 
+    /**
+     * Class Product
+     *
+     * Used to store product information
+     *
+     * @package Microshop\Models
+     */
     class Product extends BasicObject {
 
+        /**
+         * Short product description used for overview pages
+         *
+         * @var string
+         */
         private $short_description;
+        /**
+         * Product SKU
+         *
+         * @var string
+         */
         private $sku;
+        /**
+         * Product quantity (stock)
+         *
+         * @var int
+         */
         private $quantity;
+        /**
+         * Product price in cents
+         *
+         * @var int
+         */
         private $price;
+        /**
+         * Product photo id
+         *
+         * @var int
+         */
         private $photo_id;
+        /**
+         * Product description full text
+         *
+         * @var string
+         */
         private $description;
+        /**
+         * Product last updated timestamp ISO 8601
+         *
+         * @var string
+         */
         private $last_updated_time;
 
+        /**
+         * Converts product array to Product object
+         *
+         * @param $product
+         * @throws \Exception
+         */
         function __construct($product) {
             if(!isset($product['name'])) throw new \Exception("Product name is mandatory");
 
@@ -40,7 +81,9 @@ namespace Microshop\Models {
         }
 
         /**
-         * @return null
+         * Get short description
+         *
+         * @return string
          */
         public function getShortDescription()
         {
@@ -48,7 +91,9 @@ namespace Microshop\Models {
         }
 
         /**
-         * @param null $short_description
+         * Set short description
+         *
+         * @param string $short_description
          */
         public function setShortDescription($short_description)
         {
@@ -56,7 +101,9 @@ namespace Microshop\Models {
         }
 
         /**
-         * @return mixed
+         * Get SKU
+         *
+         * @return string
          */
         public function getSku()
         {
@@ -64,7 +111,9 @@ namespace Microshop\Models {
         }
 
         /**
-         * @param mixed $sku
+         * Set SKU
+         *
+         * @param string $sku
          */
         public function setSku($sku)
         {
@@ -72,7 +121,9 @@ namespace Microshop\Models {
         }
 
         /**
-         * @return mixed
+         * Get description
+         *
+         * @return string
          */
         public function getDescription()
         {
@@ -80,7 +131,9 @@ namespace Microshop\Models {
         }
 
         /**
-         * @param mixed $description
+         * Set description
+         *
+         * @param string $description
          */
         public function setDescription($description)
         {
@@ -88,6 +141,8 @@ namespace Microshop\Models {
         }
 
         /**
+         * Get quantity (stock)
+         *
          * @return int
          */
         public function getQuantity()
@@ -96,6 +151,8 @@ namespace Microshop\Models {
         }
 
         /**
+         * Set quantity
+         *
          * @param int $quantity
          */
         public function setQuantity($quantity)
@@ -104,7 +161,9 @@ namespace Microshop\Models {
         }
 
         /**
-         * @return mixed
+         * Get product price in cents
+         *
+         * @return int
          */
         public function getPrice()
         {
@@ -112,7 +171,9 @@ namespace Microshop\Models {
         }
 
         /**
-         * @param mixed $price
+         * Set product price in cents
+         *
+         * @param int $price
          */
         public function setPrice($price)
         {
@@ -120,6 +181,8 @@ namespace Microshop\Models {
         }
 
         /**
+         * Get product photo id
+         *
          * @return int
          */
         public function getPhotoId()
@@ -128,6 +191,8 @@ namespace Microshop\Models {
         }
 
         /**
+         * Set product photo id
+         *
          * @param int $photo_id
          */
         public function setPhotoId($photo_id)
@@ -136,7 +201,9 @@ namespace Microshop\Models {
         }
 
         /**
-         * @return mixed
+         * Get last updated time
+         *
+         * @return string
          */
         public function getLastUpdatedTime()
         {
@@ -144,14 +211,14 @@ namespace Microshop\Models {
         }
 
         /**
-         * @param mixed $last_updated_time
+         * Set last updated time
+         *
+         * @param string $last_updated_time
          */
         public function setLastUpdatedTime($last_updated_time)
         {
             $this->last_updated_time = $last_updated_time;
         }
-
-
 
     }
 }

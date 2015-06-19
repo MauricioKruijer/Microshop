@@ -1,29 +1,45 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 13/06/15
- * Time: 16:54
- */
-
 namespace Microshop\Services;
 
 
 use Aura\Sql\ExtendedPdo;
 use Microshop\Models\User;
 
+/**
+ * Class UserService
+ *
+ * Used to fetch and save data from MySQL
+ *
+ * @package Microshop\Services
+ */
 class UserService {
+    /**
+     * @var ExtendedPdo
+     */
     private $db;
 
+    /**
+     * @param ExtendedPdo $db
+     */
     public function __construct(ExtendedPdo $db) {
         $this->db = $db;
     }
+
+    /**
+     * @param $userEmail
+     * @return array
+     */
     public function findUserByEmail($userEmail) {
         $stmt = "SELECT `id`, `password` FROM `users` WHERE `email` = :email LIMIT 1";
         $bind = ['email' => $userEmail];
 
         return $this->db->fetchOne($stmt,$bind);
     }
+
+    /**
+     * @param $userId
+     * @return array
+     */
     public function findByUserId($userId){
         $stmt = "SELECT * FROM `users` WHERE `id` = :id LIMIT 1";
         $bind = ['id' => $userId];
@@ -31,6 +47,12 @@ class UserService {
         return $this->db->fetchOne($stmt, $bind);
     }
 
+    /**
+     * Save/update data in database
+     *
+     * @param User $user
+     * @return int|\PDOStatement
+     */
     public function persist(User $user){
         if($userId = $user->getId()) {
             $stmt = "UPDATE `users` SET

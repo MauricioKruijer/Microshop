@@ -1,30 +1,49 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 16/06/15
- * Time: 20:32
- */
-
 namespace Microshop\Services;
 
 
 use Aura\Sql\ExtendedPdo;
 use Microshop\Models\Photo;
 
+/**
+ * Class PhotoService
+ *
+ * Used to fetch and save data from MySQL
+ *
+ * @package Microshop\Services
+ */
 class PhotoService {
+    /**
+     * @var ExtendedPdo
+     */
     private $db;
 
+    /**
+     * @param ExtendedPdo $db
+     */
     public function __construct(ExtendedPdo $db) {
         $this->db = $db;
     }
 
+    /**
+     * Find photo by id
+     *
+     * @param $id
+     * @return array
+     */
     public function findById($id) {
         $stmt = "SELECT * FROM `photos` WHERE `id` = :id LIMIT 1";
         $bind = ['id' => $id];
 
         return $this->db->fetchOne($stmt, $bind);
     }
+
+    /**
+     * Save/update data in database
+     *
+     * @param Photo $photo
+     * @return int|\PDOStatement
+     */
     public function persist(Photo $photo) {
         if($photoId = $photo->getId()) {
             $stmt = "UPDATE `photo` SET

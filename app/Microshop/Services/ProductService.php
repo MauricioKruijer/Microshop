@@ -1,24 +1,34 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 12/06/15
- * Time: 22:14
- */
-
 namespace Microshop\Services;
 use Aura\Sql\Exception;
 use Microshop\Models\Product;
 
 use \Aura\Sql\ExtendedPdo;
 
+/**
+ * Class ProductService
+ *
+ * Used to fetch and save data from MySQL
+ *
+ * @package Microshop\Services
+ */
 class ProductService {
+    /**
+     * @var ExtendedPdo
+     */
     private $db;
 
+    /**
+     * @param ExtendedPdo $db
+     */
     public function __construct(ExtendedPdo $db) {
         $this->db = $db;
     }
 
+    /**
+     * @param $productId
+     * @return array|null
+     */
     public function findByProductId($productId) {
         $stmt = "SELECT * FROM `products` WHERE `id` = :id LIMIT 1";
         $bind = array('id' => $productId);
@@ -31,11 +41,23 @@ class ProductService {
             return null;
         }
     }
+
+    /**
+     * @param int $maxLimit
+     * @return array
+     */
     public function getOverViewItems($maxLimit = 9) {
         $stmt = "SELECT * FROM `products` ORDER BY `created_time` DESC LIMIT :limit";
         $bind = ['limit' => $maxLimit];
         return $this->db->fetchAll($stmt, $bind);
     }
+
+    /**
+     * Save/update data in database
+     *
+     * @param Product $product
+     * @return int|\PDOStatement
+     */
     public function persist(Product $product) {
         $stmtTemplate = "
         %s

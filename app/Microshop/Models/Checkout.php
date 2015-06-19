@@ -1,20 +1,70 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 17/06/15
- * Time: 10:30
- */
-
 namespace Microshop\Models;
 
 
 use Microshop\Utils\BasicObject;
 
+/**
+ * Class Checkout
+ *
+ * Used to store (temporary) checkout data and make it possible to persist session
+ *
+ * @package Microshop\Models
+ */
 class Checkout extends BasicObject {
+    /**
+     * Checkout id
+     *
+     * @var bool
+     */
     protected $id;
-    private  $user_id, $cart_session_key,$type, $coupon, $billing_id, $shipping_id;
+    /**
+     * User id
+     *
+     * @var int
+     */
+    private  $user_id;
+    /**
+     * Session key matched with current checkout item
+     *
+     * @var string
+     */
+    private $cart_session_key;
+    /**
+     * Type used to check state of checkout
+     * Stored as TINYINT in MySQL
+     *
+     * @todo consider using constants
+     * @example 1=in checkout, 2=payment awaiting, 3=payed, 4=failed, 5=cancelled
+     * @var int
+     */
+    private $type;
+    /**
+     * Coupon code (not yet validated)
+     *
+     * @todo implement this feature
+     * @var string
+     */
+    private $coupon;
+    /**
+     * Billing id
+     *
+     * @var int
+     */
+    private $billing_id;
+    /**
+     * Shipping id
+     *
+     * @var int
+     */
+    private $shipping_id;
 
+    /**
+     * Converts checkout array to Checkout object
+     *
+     * @todo use getters and setters. Consider using a trait
+     * @param $checkout
+     */
     public function __construct($checkout) {
         $this->id = (isset($checkout['id']) ? $checkout['id'] : false);
         $this->user_id = (isset($checkout['user_id']) ? $checkout['user_id'] : null);
@@ -26,7 +76,9 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @return null
+     * Get billing id
+     *
+     * @return int
      */
     public function getBillingId()
     {
@@ -34,7 +86,9 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @param null $billing_id
+     * Set billing id
+     *
+     * @param int $billing_id
      */
     public function setBillingId($billing_id)
     {
@@ -42,7 +96,9 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @return null
+     * Get cart session key
+     *
+     * @return string
      */
     public function getCartSessionKey()
     {
@@ -50,7 +106,9 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @param null $cart_session_key
+     * Set cart session id
+     *
+     * @param string $cart_session_key
      */
     public function setCartSessionKey($cart_session_key)
     {
@@ -58,7 +116,10 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @return null
+     * Get coupon code
+     *
+     * @todo implement this feature
+     * @return string
      */
     public function getCoupon()
     {
@@ -66,7 +127,10 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @param null $coupon
+     * Set coupon code
+     *
+     * @todo implement this feature
+     * @param string $coupon
      */
     public function setCoupon($coupon)
     {
@@ -74,7 +138,9 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @return null
+     * Get shipping id
+     *
+     * @return int
      */
     public function getShippingId()
     {
@@ -82,7 +148,9 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @param null $shipping_id
+     * Set shipping id
+     *
+     * @param int $shipping_id
      */
     public function setShippingId($shipping_id)
     {
@@ -90,7 +158,9 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @return null
+     * Get type
+     *
+     * @return int
      */
     public function getType()
     {
@@ -98,7 +168,9 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @param null $type
+     * Set type
+     *
+     * @param int $type
      */
     public function setType($type)
     {
@@ -106,7 +178,9 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @return null
+     * Get user id
+     *
+     * @return int
      */
     public function getUserId()
     {
@@ -114,7 +188,9 @@ class Checkout extends BasicObject {
     }
 
     /**
-     * @param null $user_id
+     * Set user id
+     *
+     * @param int $user_id
      */
     public function setUserId($user_id)
     {

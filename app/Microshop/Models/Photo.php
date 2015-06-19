@@ -1,23 +1,57 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 16/06/15
- * Time: 20:42
- */
-
 namespace Microshop\Models;
 
 
 use Microshop\Utils\BasicObject;
 
+/**
+ * Class Photo
+ *
+ * Used to store uploaded photo information
+ *
+ * @package Microshop\Models
+ */
 class Photo extends BasicObject {
+    /**
+     * Image width
+     *
+     * @var int
+     */
     private $width;
+    /**
+     * Image height
+     *
+     * @var int
+     */
     private $height;
+    /**
+     * Local image path
+     *
+     * @var string
+     */
     private $path;
+    /**
+     * Image type
+     *
+     * @example image/jpeg
+     * @var string
+     */
     private $type;
+    /**
+     * Image checksum
+     *
+     * @todo make use of it or get rid of it
+     * @var string
+     */
     private $checksum;
 
+    /**
+     * Converts photo array to Photo object
+     *
+     * @todo use getters and setters
+     * @param $photo
+     * @throws \Exception
+     */
     public function __construct($photo) {
         if(!isset($photo['name'])) throw new \Exception("Photo (file)name is mandatory");
 
@@ -34,7 +68,9 @@ class Photo extends BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get photo width
+     *
+     * @return int
      */
     public function getWidth()
     {
@@ -42,7 +78,9 @@ class Photo extends BasicObject {
     }
 
     /**
-     * @param mixed $width
+     * Set photo width
+     *
+     * @param int $width
      */
     public function setWidth($width)
     {
@@ -50,7 +88,9 @@ class Photo extends BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get photo height
+     *
+     * @return int
      */
     public function getHeight()
     {
@@ -58,7 +98,9 @@ class Photo extends BasicObject {
     }
 
     /**
-     * @param mixed $height
+     * Set photo height
+     *
+     * @param int $height
      */
     public function setHeight($height)
     {
@@ -66,7 +108,9 @@ class Photo extends BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get photo path
+     *
+     * @return string
      */
     public function getPath()
     {
@@ -74,7 +118,9 @@ class Photo extends BasicObject {
     }
 
     /**
-     * @param mixed $path
+     * Set photo path
+     *
+     * @param string $path
      */
     public function setPath($path)
     {
@@ -82,7 +128,9 @@ class Photo extends BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get photo type
+     *
+     * @return string
      */
     public function getType()
     {
@@ -90,7 +138,9 @@ class Photo extends BasicObject {
     }
 
     /**
-     * @param mixed $type
+     * Set photo type
+     *
+     * @param string $type
      */
     public function setType($type)
     {
@@ -98,7 +148,9 @@ class Photo extends BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get photo checksum
+     *
+     * @return string
      */
     public function getChecksum()
     {
@@ -106,7 +158,9 @@ class Photo extends BasicObject {
     }
 
     /**
-     * @param mixed $checksum
+     * Set photo SHA1 checksum
+     *
+     * @param string $checksum
      */
     public function setChecksum($checksum)
     {

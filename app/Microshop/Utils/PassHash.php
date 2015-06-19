@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 17/06/15
- * Time: 11:19
- */
-
 namespace Microshop\Utils;
 
 // http://code.tutsplus.com/tutorials/understanding-hash-functions-and-keeping-passwords-safe--net-17577

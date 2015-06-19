@@ -1,4 +1,6 @@
 <?php
+// Global config constants for DB
+// @todo move constants form index.php to config.php
 define("MYSQL_HOST", "localhost");
 define("MYSQL_PORT", 3366);
 define("MYSQL_DATABASE", "database");

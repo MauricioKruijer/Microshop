@@ -1,31 +1,58 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 17/06/15
- * Time: 06:09
- */
-
 namespace Microshop\Services;
 
 
 use Aura\Sql\ExtendedPdo;
 use Microshop\Models\Billing;
 
+/**
+ * Class BillingService
+ *
+ * Used to fetch and save data from MySQL
+ *
+ * @package Microshop\Services
+ */
 class BillingService {
+    /**
+     * @param ExtendedPdo $db
+     */
     public function __construct(ExtendedPdo $db){
         $this->db = $db;
     }
+
+    /**
+     * Get billing address by user id
+     *
+     * @param $billingId
+     * @param $userId
+     * @return array
+     */
     public function findForUserById($billingId, $userId) {
         $stmt = "SELECT * FROM `billing` WHERE `id` = :id AND `user_id` = :user_id LIMIT 1";
         $bind = ['id' =>$billingId, 'user_id' => $userId];
         return $this->db->fetchOne($stmt, $bind);
     }
+
+    /**
+     * Get billing addresses by user id
+     *
+     * @param $userId
+     * @return array
+     */
     public function getBillingAddresses($userId) {
         $stmt = "SELECT * FROM `billing` WHERE `user_id` = :user_id LIMIT 10";
         $bind = ['user_id' => $userId];
         return $this->db->fetchAll($stmt, $bind);
     }
+
+    /**
+     * Ensure primary billing address for user
+     *
+     * @todo double check if it is still necessary
+     * @param $billingId
+     * @param $userId
+     * @return bool
+     */
     public function ensurePrimaryAddress($billingId, $userId) {
         $this->db->beginTransaction();
         try {
@@ -43,6 +70,14 @@ class BillingService {
         }
 
     }
+
+    /**
+     * Save or update Billing object to database
+     *
+     * @todo walk though object attributes by using a trait or parent class
+     * @param Billing $billing
+     * @return int|\PDOStatement
+     */
     public function persist(Billing $billing) {
         $stmtTemplate = "
         %s

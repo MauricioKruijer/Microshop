@@ -1,10 +1,17 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 17/06/15
- * Time: 06:56
- */?>
+ * Create billing form
+ *
+ * User must provide at least one billing address (by default also used for shipping).
+ * Let the user add another address after providing the first one.
+ * This new address will be set as primary shipping address
+ *
+ * Mandatory fields: full_address
+ * Optional: add_additional
+ *
+ * @todo split up full_address to separate fields (street, zip, state, etc)
+ */
+?>
 <h1>Provide Billing info</h1>
 <form action="/billing/add" method="post">
     <p><label>Address <input type="text" name="full_address"> </label></p>

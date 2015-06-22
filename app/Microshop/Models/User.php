@@ -1,23 +1,70 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 13/06/15
- * Time: 15:22
- */
-
 namespace Microshop\Models;
 
 
+/**
+ * Class User
+ *
+ * Used to store user data
+ *
+ * @package Microshop\Models
+ */
 class User extends \Microshop\Utils\BasicObject {
-    private $email,
-        $first_name,
-        $last_name,
-        $password,
-        $shipping_id,
-        $billing_id;
-    private $password_hash, $user_session_key;
+    /**
+     * User email
+     *
+     * @var string
+     */
+    private $email;
+    /**
+     * User first name
+     *
+     * @var string
+     */
+    private $first_name;
+    /**
+     * User last name
+     *
+     * @var string
+     */
+    private $last_name;
+    /**
+     * User password (stored as (PassHash) hash)
+     *
+     * @var string
+     */
+    private $password;
+    /**
+     * User shipping id
+     *
+     * @var int
+     */
+    private $shipping_id;
+    /**
+     * User billing id
+     *
+     * @var id
+     */
+    private $billing_id;
+    /**
+     * User
+     * @var null
+     */
+    private $password_hash;
+    /**
+     * User password hash/salt
+     *
+     * @todo remove this, it is depricated
+     * @var null
+     */
+    private $user_session_key;
 
+    /**
+     * Convert user array to User object
+     *
+     * @param $user
+     * @throws \Exception
+     */
     function __construct($user) {
         if(!isset($user['first_name'])) throw new \Exception("First name is mandatory");
         if(!isset($user['last_name'])) throw new \Exception("Last name is mandatory");
@@ -37,7 +84,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get user first name
+     *
+     * @return string
      */
     public function getFirstName()
     {
@@ -45,7 +94,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @param mixed $first_name
+     * Set user first name
+     *
+     * @param string $first_name
      */
     public function setFirstName($first_name)
     {
@@ -53,7 +104,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get user last name
+     *
+     * @return string
      */
     public function getLastName()
     {
@@ -61,7 +114,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get user password(hash)
+     *
+     * @return string
      */
     public function getPassword()
     {
@@ -69,7 +124,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @param mixed $password
+     * Set user password (hashed)
+     *
+     * @param string $password
      */
     public function setPassword($password)
     {
@@ -77,7 +134,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @param mixed $last_name
+     * Set user last name
+     *
+     * @param string $last_name
      */
     public function setLastName($last_name)
     {
@@ -85,7 +144,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get user email
+     *
+     * @return string
      */
     public function getEmail()
     {
@@ -93,7 +154,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @param mixed $email
+     * Set user email
+     *
+     * @param string $email
      */
     public function setEmail($email)
     {
@@ -101,7 +164,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @return null
+     * Get user shipping id
+     *
+     * @return int
      */
     public function getShippingId()
     {
@@ -109,7 +174,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @param null $shipping_id
+     * Set shipping id
+     *
+     * @param int $shipping_id
      */
     public function setShippingId($shipping_id)
     {
@@ -117,7 +184,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @return null
+     * Get user billing id
+     *
+     * @return int
      */
     public function getBillingId()
     {
@@ -125,7 +194,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @param null $billing_id
+     * Set billing id
+     *
+     * @param int $billing_id
      */
     public function setBillingId($billing_id)
     {
@@ -133,7 +204,10 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get password hash
+     *
+     * @todo remove it since it is deprecated or use it for extra salting
+     * @return string
      */
     public function getPasswordHash()
     {
@@ -141,7 +215,10 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @param mixed $password_hash
+     * Set password hash/salt
+     *
+     * @todo remove it since it is deprecated or use it for extra salting..
+     * @param string $password_hash
      */
     public function setPasswordHash($password_hash)
     {
@@ -149,7 +226,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @return mixed
+     * Get user session key
+     *
+     * @return string
      */
     public function getUserSessionKey()
     {
@@ -157,7 +236,9 @@ class User extends \Microshop\Utils\BasicObject {
     }
 
     /**
-     * @param mixed $user_session_key
+     * Set user session key
+     *
+     * @param string $user_session_key
      */
     public function setUserSessionKey($user_session_key)
     {

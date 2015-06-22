@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 17/06/15
- * Time: 06:18
+ * User login form
+ *
+ * Mandatory fields: email, password
  */
 ?>
 <form action="/user/login" method="post">

@@ -1,24 +1,34 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 17/06/15
- * Time: 10:28
- */
-
 namespace Microshop\Services;
 
 
 use Aura\Sql\ExtendedPdo;
 use Microshop\Models\Checkout;
 
+/**
+ * Class CheckoutService
+ *
+ * Used to fetch and save data from MySQL
+ *
+ * @package Microshop\Services
+ */
 class CheckoutService {
+    /**
+     * @var ExtendedPdo
+     */
     private $db;
 
+    /**
+     * @param ExtendedPdo $db
+     */
     public function __construct(ExtendedPdo $db) {
         $this->db = $db;
     }
 
+    /**
+     * @param $key
+     * @return array
+     */
     public function findByCartSessionKey($key) {
         $stmt = "SELECT * FROM `checkout` WHERE `cart_session_key` = :cart_session_key LIMIT 1";
         $bind = ['cart_session_key' => $key];
@@ -26,6 +36,12 @@ class CheckoutService {
         return $this->db->fetchOne($stmt, $bind);
     }
 
+    /**
+     * Save/update checkout data in database
+     *
+     * @param Checkout $checkout
+     * @return int|\PDOStatement
+     */
     public function persist(Checkout $checkout) {
         $stmtTemplate = "
         %s

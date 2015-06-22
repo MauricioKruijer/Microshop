@@ -1,21 +1,49 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 17/06/15
- * Time: 06:13
- */
-
 namespace Microshop\Models;
 
 
 use Microshop\Utils\BasicObject;
 
+/**
+ * Class Billing
+ *
+ * Billing object used for storing billing address info
+ * also being used for shipping adderess info (set by type)
+ *
+ * @package Microshop\Models
+ */
 class Billing extends BasicObject {
+
+    /**
+     * Address stored as string e.g. "Straatnaam 1337"
+     *
+     * @todo split up in multiple fields, address, zip etc
+     * @var string
+     */
     private $full_address;
+    /**
+     * Type is used to determine if the item is uses as Shipping address or just as billing address
+     *
+     * Saved as TINTYINT in MySQL
+     *
+     * @todo consider using constant type to enhance readability
+     * @var int
+     */
     private $type;
+    /**
+     * User id
+     *
+     * @var int
+     */
     private $user_id;
 
+
+    /**
+     * Converts billing array to Biling object
+     *
+     * @todo use getters and setters. Consider using a trait
+     * @param $billing
+     */
     public function __construct($billing) {
         $this->id = (isset($billing['id']) ?$billing['id'] : null );
         $this->full_address = (isset($billing['full_address']) ?$billing['full_address'] : null );

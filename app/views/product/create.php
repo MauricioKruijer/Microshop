@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 16/06/15
- * Time: 23:03
+ * Create new product form
+ *
+ * Mandatory fields: all
+ * @todo fix image upload issue
  */
 ?>
 <form enctype="multipart/form-data" action="" method="post">

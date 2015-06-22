@@ -1,3 +1,10 @@
+<?php
+/**
+ * Index page
+ *
+ * Used to display product overview, let the user add items to cart or view product details
+ */
+?>
 <a href="/cart">Go to shopingcart</a> <br />
 <?php if(isset($_COOKIE['user_id'])): ?>
 <a href="/user/logout">Go to logout</a> <br />

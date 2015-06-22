@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 12/06/15
- * Time: 18:06
+ * Create new user
  */
 ?>
 

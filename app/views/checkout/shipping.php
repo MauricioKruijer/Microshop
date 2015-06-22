@@ -1,4 +1,13 @@
 <?php
+/**
+ * Checkout shipping overview
+ *
+ * Display complete order, cart items, pricing, billing information
+ *
+ * Give the user an option to change billing/shipping info
+ *
+ * @todo process order
+ */
 use Microshop\Utils\Session;
 ?>
 <h1>Review your order</h1>

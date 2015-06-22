@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 17/06/15
- * Time: 08:43
+ * Checkout overview
+ *
+ * Lists all items from cart with total sum (quantity and price)
+ * Let the user proceed to checkout/shipping
  */
 use Microshop\Utils\Session;
 

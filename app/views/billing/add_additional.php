@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Mauricio
- * Date: 17/06/15
- * Time: 06:56
+ * Create additional billing form
+ *
+ * Save additional billing address by default as primary shipping address
+ *
+ * Mandatory fields: full_address
+ *
+ * @todo split up full_address to separate fields (street, zip, state, etc)
  */?>
 <h1>Provide Additional Billing info</h1>
 <form action="/billing/add/additional" method="post">

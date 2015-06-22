@@ -1,3 +1,15 @@
+<?php
+/**
+ * Cart overview
+ *
+ * Display cart products overview. Let the user add one more for each item in cart.
+ * By subtracting one item it it possible to delete the product from cart
+ *
+ * Link to checkout
+ *
+ * @todo set fixed quantity for product and let the user remove product with one click
+ */
+?>
 <h1>Total items <?=$this->cart->getTotalCartItems()?></h1>
 
 <?php

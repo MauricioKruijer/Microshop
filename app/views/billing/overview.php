@@ -1,3 +1,10 @@
+<?php
+/**
+ * Billing addresses overview
+ *
+ * Display all user provided addresses and let the user a default for shipping/billing
+ */
+?>
 <a href="/billing/add">Add new address</a><br />
 <?php
 $totalBillingItems = count($this->billingItems);

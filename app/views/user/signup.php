@@ -1,3 +1,10 @@
+<?php
+/**
+ * User signup form
+ *
+ * Mandatory fields: first_name, email, password1, password2
+ */
+?>
 <h1>Register User</h1>
 <form action="/user/create?redirect=billing" method="post">
     <p>

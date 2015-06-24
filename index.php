@@ -1,10 +1,6 @@
 <?php
 // Composer autoload
 require_once __DIR__ . '/vendor/autoload.php';
-// @todo Move to config file
-// Set defines to ensure good paths
-define("APP_ROOT", "/Users/Mauricio/Sites/microshop/app/");
-define("PROJECT_ROOT", "/Users/Mauricio/Sites/microshop/");
 // @todo there seems to be an issue with sending application-x-data to php://input since php 5.6 I guess
 // Had to set it in php.ini file this does nothing
 ini_set('always_populate_raw_post_data' , -1);
@@ -38,17 +34,6 @@ $klein->respond(function ($request, $response, $service, $app) {
     // UserService globally available in $app for user session validation
     $app->userService = new UserService($app->db);
 });
-// @todo Remove this test
-$klein->respond('GET', '/test', function($request, $response, $service) {
-    $service->flash("yo me boy");
-    $service->flash("yo ma boy");
-    $service->back();
-    $service->render('./app/views/home.php');
-});
-// @todo Remove this test
-$klein->respond('GET', '/hello-world', function () {
-    return 'Hello World!';
-});
 
 // index!
 $klein->respond('GET', '/', function ($request, $response, $service, $app) {
@@ -56,8 +41,8 @@ $klein->respond('GET', '/', function ($request, $response, $service, $app) {
 	$service->pageTitle = 'Hello world';
 	$service->render('./app/views/index/overview.php', ['products' => $productService->getOverViewItems()]);
 });
-// @todo shrink this with foreach
-// Setting all default routes to route controllers (namespaced)
+
+// Map route namespace to controller/route file
 $routes = [
     'billing',
     'checkout',
@@ -67,7 +52,7 @@ $routes = [
     'user',
     'photos'
 ];
-
+// Bind route with route file
 foreach($routes as $controller ) {
     $klein->with('/' . $controller, __DIR__ . '/app/routes/' . $controller . '.php');
 }

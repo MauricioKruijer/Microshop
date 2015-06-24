@@ -58,14 +58,20 @@ $klein->respond('GET', '/', function ($request, $response, $service, $app) {
 });
 // @todo shrink this with foreach
 // Setting all default routes to route controllers (namespaced)
-$klein->with('/billing', __DIR__ . '/app/routes/billing.php');
-$klein->with('/checkout', __DIR__ . '/app/routes/checkout.php');
-$klein->with('/cart', __DIR__ . '/app/routes/cart.php');
-$klein->with('/shoppingcart', __DIR__ . '/app/routes/shoppingcart.php');
-$klein->with('/product', __DIR__ . '/app/routes/product.php');
-$klein->with('/products', __DIR__ . '/app/routes/products.php');
-$klein->with("/user", __DIR__. '/app/routes/user.php');
-$klein->with("/photos", __DIR__. '/app/routes/photos.php');
+$routes = [
+    'billing',
+    'checkout',
+    'cart',
+    'shoppingcart',
+    'product',
+    'user',
+    'photos'
+];
+
+foreach($routes as $controller ) {
+    $klein->with('/' . $controller, __DIR__ . '/app/routes/' . $controller . '.php');
+}
+
 // @todo clean up error handling
 $klein->onHttpError(function ($code, $router) {
     switch ($code) {
